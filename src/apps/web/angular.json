@@ -158,11 +158,15 @@
               ]
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "local"
         },
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
           "configurations": {
+            "local": {
+              "browserTarget": "web:build:local",
+              "serverTarget": "web:server:local"
+            },
             "development": {
               "browserTarget": "web:build:development",
               "serverTarget": "web:server:development"
@@ -172,7 +176,7 @@
               "serverTarget": "web:server:production"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "local"
         },
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
@@ -182,16 +186,20 @@
             ]
           },
           "configurations": {
-            "production": {
-              "browserTarget": "web:build:production",
-              "serverTarget": "web:server:production"
+            "local": {
+              "browserTarget": "web:build:local",
+              "serverTarget": "web:server:local"
             },
             "development": {
               "browserTarget": "web:build:development",
               "serverTarget": "web:server:development"
+            },
+            "production": {
+              "browserTarget": "web:build:production",
+              "serverTarget": "web:server:production"
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "local"
         }
       }
     }
