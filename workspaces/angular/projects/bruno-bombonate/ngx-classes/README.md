@@ -13,7 +13,7 @@ npm install @bruno-bombonate/ngx-classes
 
 ### ListContainerClass
 
-List containers are responsible for fetching data from the server. Data presentation must be made at [child component](###ListComponentClass).
+List containers are responsible for fetching data from the server. Data presentation must be made at [child component](#listcomponentclass).
 
 ```typescript
 import { Component, OnInit } from '@angular/core';
@@ -74,7 +74,7 @@ export class UsersListComponent extends ListContainerClass implements OnInit {
 
 ### ListComponentClass
 
-List components are responsible for presenting data only. HTTP requests must be made at [parent component](###ListContainerClass).
+List components are responsible for presenting data only. HTTP requests must be made at [parent component](#listcontainerclass).
 
 ```typescript
 import { Component, ChangeDetectionStrategy } from '@angular/core';
@@ -91,7 +91,7 @@ export class UserListComponent extends ListComponentClass { }
 
 ### FormComponentClass
 
-Form components are responsible for manipulating data and passing it on. HTTP requests must be made at [parent component](###OnDestroyClass).
+Form components are responsible for manipulating data and passing it on. HTTP requests must be made at [parent component](#ondestroyclass).
 
 ```typescript
 import { Component, ChangeDetectionStrategy } from '@angular/core';
