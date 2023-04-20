@@ -1,0 +1,58 @@
+
+$BOILERPLATE_TOAST_MIN_WIDTH: 390px
+$BOILERPLATE_TOAST_BACKGROUND_COLOR: #000000
+$BOILERPLATE_TOAST_COLOR: #FFFFFF
+
+$BOILERPLATE_TOAST_SUCCESS_BACKGROUND_COLOR: #28A745
+$BOILERPLATE_TOAST_SUCCESS_COLOR: #FFFFFF
+
+$BOILERPLATE_TOAST_ERROR_BACKGROUND_COLOR: #DC3545
+$BOILERPLATE_TOAST_ERROR_COLOR: #FFFFFF
+
+:root
+  --boilerplate-toast-min-width: 390px
+  --boilerplate-toast-background-color: #000000
+  --boilerplate-toast-color: #FFFFFF
+  --boilerplate-toast-success-background-color: #000000
+  --boilerplate-toast-success-color: #FFFFFF
+  --boilerplate-toast-error-background-color: #DC3545
+  --boilerplate-toast-error-color: #FFFFFF
+
+:host
+  position: fixed
+  z-index: 1
+  bottom: 0px
+  left: 0px
+  display: block
+  min-width: var(--boilerplate-toast-min-width)
+  width: 100%
+  text-align: center
+  padding: 0px 32px 32px 32px
+  transform: translate(0px, 100%)
+
+.boilerplate-toast
+  display: inline-flex
+  align-items: center
+  background-color: var(--boilerplate-toast-background-color)
+  font-size: 16px
+  font-weight: 300
+  line-height: 1
+  text-align: left
+  color: var(--boilerplate-toast-color)
+  padding: 16px 16px 16px 16px
+  border-radius: 4px 4px 4px 4px
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.10)
+  > *
+    margin: 0px 8px 0px 8px
+    &:first-child
+      margin-left: 0
+    &:last-child
+      margin-right: 0
+
+.boilerplate-toast-success
+  background-color: var(--boilerplate-toast-success-background-color)
+  color: var(--boilerplate-toast-success-color)
+
+.boilerplate-toast-error
+  background-color: var(--boilerplate-toast-error-background-color)
+  color: var(--boilerplate-toast-error-color)

@@ -1,0 +1,504 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "boilerplate-user": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "sass"
+        }
+      },
+      "root": "projects/apps/boilerplate-user",
+      "sourceRoot": "projects/apps/boilerplate-user/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/boilerplate-user/browser",
+            "index": "projects/apps/boilerplate-user/src/index.html",
+            "main": "projects/apps/boilerplate-user/src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "projects/apps/boilerplate-user/tsconfig.app.json",
+            "inlineStyleLanguage": "sass",
+            "assets": [
+              "projects/apps/boilerplate-user/src/android-chrome-192x192.png",
+              "projects/apps/boilerplate-user/src/android-chrome-256x256.png",
+              "projects/apps/boilerplate-user/src/apple-touch-icon.png",
+              "projects/apps/boilerplate-user/src/browserconfig.xml",
+              "projects/apps/boilerplate-user/src/favicon.ico",
+              "projects/apps/boilerplate-user/src/favicon-16x16.png",
+              "projects/apps/boilerplate-user/src/favicon-32x32.png",
+              "projects/apps/boilerplate-user/src/mstile-150x150.png",
+              "projects/apps/boilerplate-user/src/safari-pinned-tab.html",
+              "projects/apps/boilerplate-user/src/site.webmanifest",
+              "projects/apps/boilerplate-user/src/assets"
+            ],
+            "styles": [
+              "projects/apps/boilerplate-user/src/styles.sass"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "local": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
+            "development": {
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "projects/apps/boilerplate-user/src/environments/environment.ts",
+                  "with": "projects/apps/boilerplate-user/src/environments/environment.development.ts"
+                }
+              ]
+            },
+            "production": {
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "projects/apps/boilerplate-user/src/environments/environment.ts",
+                  "with": "projects/apps/boilerplate-user/src/environments/environment.production.ts"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": "local"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "local": {
+              "browserTarget": "boilerplate-user:build:local"
+            },
+            "development": {
+              "browserTarget": "boilerplate-user:build:development"
+            },
+            "production": {
+              "browserTarget": "boilerplate-user:build:production"
+            }
+          },
+          "defaultConfiguration": "local"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "boilerplate-user:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "projects/apps/boilerplate-user/tsconfig.spec.json",
+            "inlineStyleLanguage": "sass",
+            "assets": [
+              "projects/apps/boilerplate-user/src/android-chrome-192x192.png",
+              "projects/apps/boilerplate-user/src/android-chrome-256x256.png",
+              "projects/apps/boilerplate-user/src/apple-touch-icon.png",
+              "projects/apps/boilerplate-user/src/browserconfig.xml",
+              "projects/apps/boilerplate-user/src/favicon.ico",
+              "projects/apps/boilerplate-user/src/favicon-16x16.png",
+              "projects/apps/boilerplate-user/src/favicon-32x32.png",
+              "projects/apps/boilerplate-user/src/mstile-150x150.png",
+              "projects/apps/boilerplate-user/src/safari-pinned-tab.html",
+              "projects/apps/boilerplate-user/src/site.webmanifest",
+              "projects/apps/boilerplate-user/src/assets"
+            ],
+            "styles": [
+              "projects/apps/boilerplate-user/src/styles.sass"
+            ],
+            "scripts": []
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/boilerplate-user/server",
+            "main": "projects/apps/boilerplate-user/server.ts",
+            "tsConfig": "projects/apps/boilerplate-user/tsconfig.server.json",
+            "inlineStyleLanguage": "sass"
+          },
+          "configurations": {
+            "local": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true
+            },
+            "development": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "projects/apps/boilerplate-user/src/environments/environment.ts",
+                  "with": "projects/apps/boilerplate-user/src/environments/environment.development.ts"
+                }
+              ]
+    
+            },
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "projects/apps/boilerplate-user/src/environments/environment.ts",
+                  "with": "projects/apps/boilerplate-user/src/environments/environment.production.ts"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": "local"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "local": {
+              "browserTarget": "boilerplate-user:build:local",
+              "serverTarget": "boilerplate-user:server:local"
+            },
+            "development": {
+              "browserTarget": "boilerplate-user:build:development",
+              "serverTarget": "boilerplate-user:server:development"
+            },
+            "production": {
+              "browserTarget": "boilerplate-user:build:production",
+              "serverTarget": "boilerplate-user:server:production"
+            }
+          },
+          "defaultConfiguration": "local"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "local": {
+              "browserTarget": "boilerplate-user:build:local",
+              "serverTarget": "boilerplate-user:server:local"
+            },
+            "development": {
+              "browserTarget": "boilerplate-user:build:development",
+              "serverTarget": "boilerplate-user:server:development"
+            },
+            "production": {
+              "browserTarget": "boilerplate-user:build:production",
+              "serverTarget": "boilerplate-user:server:production"
+            }
+          },
+          "defaultConfiguration": "local"
+        }
+      }
+    },
+    "boilerplate-administrator": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "sass"
+        }
+      },
+      "root": "projects/apps/boilerplate-administrator",
+      "sourceRoot": "projects/apps/boilerplate-administrator/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/boilerplate-administrator/browser",
+            "index": "projects/apps/boilerplate-administrator/src/index.html",
+            "main": "projects/apps/boilerplate-administrator/src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "projects/apps/boilerplate-administrator/tsconfig.app.json",
+            "inlineStyleLanguage": "sass",
+            "assets": [
+              "projects/apps/boilerplate-administrator/src/android-chrome-192x192.png",
+              "projects/apps/boilerplate-administrator/src/android-chrome-256x256.png",
+              "projects/apps/boilerplate-administrator/src/apple-touch-icon.png",
+              "projects/apps/boilerplate-administrator/src/browserconfig.xml",
+              "projects/apps/boilerplate-administrator/src/favicon.ico",
+              "projects/apps/boilerplate-administrator/src/favicon-16x16.png",
+              "projects/apps/boilerplate-administrator/src/favicon-32x32.png",
+              "projects/apps/boilerplate-administrator/src/mstile-150x150.png",
+              "projects/apps/boilerplate-administrator/src/safari-pinned-tab.html",
+              "projects/apps/boilerplate-administrator/src/site.webmanifest",
+              "projects/apps/boilerplate-administrator/src/assets"
+            ],
+            "styles": [
+              "projects/apps/boilerplate-administrator/src/styles.sass"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "local": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
+            "development": {
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "projects/apps/boilerplate-administrator/src/environments/environment.ts",
+                  "with": "projects/apps/boilerplate-administrator/src/environments/environment.development.ts"
+                }
+              ]
+            },
+            "production": {
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "projects/apps/boilerplate-administrator/src/environments/environment.ts",
+                  "with": "projects/apps/boilerplate-administrator/src/environments/environment.production.ts"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": "local"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "local": {
+              "browserTarget": "boilerplate-administrator:build:local"
+            },
+            "development": {
+              "browserTarget": "boilerplate-administrator:build:development"
+            },
+            "production": {
+              "browserTarget": "boilerplate-administrator:build:production"
+            }
+          },
+          "defaultConfiguration": "local"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "boilerplate-administrator:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "projects/apps/boilerplate-administrator/tsconfig.spec.json",
+            "inlineStyleLanguage": "sass",
+            "assets": [
+              "projects/apps/boilerplate-administrator/src/android-chrome-192x192.png",
+              "projects/apps/boilerplate-administrator/src/android-chrome-256x256.png",
+              "projects/apps/boilerplate-administrator/src/apple-touch-icon.png",
+              "projects/apps/boilerplate-administrator/src/browserconfig.xml",
+              "projects/apps/boilerplate-administrator/src/favicon.ico",
+              "projects/apps/boilerplate-administrator/src/favicon-16x16.png",
+              "projects/apps/boilerplate-administrator/src/favicon-32x32.png",
+              "projects/apps/boilerplate-administrator/src/mstile-150x150.png",
+              "projects/apps/boilerplate-administrator/src/safari-pinned-tab.html",
+              "projects/apps/boilerplate-administrator/src/site.webmanifest",
+              "projects/apps/boilerplate-administrator/src/assets"
+            ],
+            "styles": [
+              "projects/apps/boilerplate-administrator/src/styles.sass"
+            ],
+            "scripts": []
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/boilerplate-administrator/server",
+            "main": "projects/apps/boilerplate-administrator/server.ts",
+            "tsConfig": "projects/apps/boilerplate-administrator/tsconfig.server.json",
+            "inlineStyleLanguage": "sass"
+          },
+          "configurations": {
+            "local": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true
+            },
+            "development": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "projects/apps/boilerplate-administrator/src/environments/environment.ts",
+                  "with": "projects/apps/boilerplate-administrator/src/environments/environment.development.ts"
+                }
+              ]
+
+            },
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "projects/apps/boilerplate-administrator/src/environments/environment.ts",
+                  "with": "projects/apps/boilerplate-administrator/src/environments/environment.production.ts"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": "local"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "local": {
+              "browserTarget": "boilerplate-administrator:build:local",
+              "serverTarget": "boilerplate-administrator:server:local"
+            },
+            "development": {
+              "browserTarget": "boilerplate-administrator:build:development",
+              "serverTarget": "boilerplate-administrator:server:development"
+            },
+            "production": {
+              "browserTarget": "boilerplate-administrator:build:production",
+              "serverTarget": "boilerplate-administrator:server:production"
+            }
+          },
+          "defaultConfiguration": "local"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "local": {
+              "browserTarget": "boilerplate-administrator:build:local",
+              "serverTarget": "boilerplate-administrator:server:local"
+            },
+            "development": {
+              "browserTarget": "boilerplate-administrator:build:development",
+              "serverTarget": "boilerplate-administrator:server:development"
+            },
+            "production": {
+              "browserTarget": "boilerplate-administrator:build:production",
+              "serverTarget": "boilerplate-administrator:server:production"
+            }
+          },
+          "defaultConfiguration": "local"
+        }
+      }
+    },
+    "boilerplate-classes": {
+      "projectType": "library",
+      "root": "projects/libs/boilerplate-classes",
+      "sourceRoot": "projects/libs/boilerplate-classes/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/libs/boilerplate-classes/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/libs/boilerplate-classes/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/libs/boilerplate-classes/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/libs/boilerplate-classes/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "boilerplate-toast": {
+      "projectType": "library",
+      "root": "projects/libs/boilerplate-toast",
+      "sourceRoot": "projects/libs/boilerplate-toast/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/libs/boilerplate-toast/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/libs/boilerplate-toast/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/libs/boilerplate-toast/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/libs/boilerplate-toast/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "@bruno-bombonate/ngx-classes": {
+      "projectType": "library",
+      "root": "projects/bruno-bombonate/ngx-classes",
+      "sourceRoot": "projects/bruno-bombonate/ngx-classes/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/bruno-bombonate/ngx-classes/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/bruno-bombonate/ngx-classes/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/bruno-bombonate/ngx-classes/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/bruno-bombonate/ngx-classes/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
