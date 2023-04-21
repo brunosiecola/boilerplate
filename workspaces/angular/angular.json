@@ -532,6 +532,72 @@
           }
         }
       }
+    },
+    "@bruno-bombonate/ngx-authentication": {
+      "projectType": "library",
+      "root": "projects/bruno-bombonate/ngx-authentication",
+      "sourceRoot": "projects/bruno-bombonate/ngx-authentication/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/bruno-bombonate/ngx-authentication/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/bruno-bombonate/ngx-authentication/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/bruno-bombonate/ngx-authentication/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/bruno-bombonate/ngx-authentication/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "@bruno-bombonate/ngx-forms": {
+      "projectType": "library",
+      "root": "projects/bruno-bombonate/ngx-forms",
+      "sourceRoot": "projects/bruno-bombonate/ngx-forms/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/bruno-bombonate/ngx-forms/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/bruno-bombonate/ngx-forms/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/bruno-bombonate/ngx-forms/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/bruno-bombonate/ngx-forms/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
   }
 }

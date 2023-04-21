@@ -4,23 +4,20 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "@bruno-bombonate/ngx-authentication": [
+        "dist/bruno-bombonate/ngx-authentication"
+      ],
       "@bruno-bombonate/ngx-classes": [
         "dist/bruno-bombonate/ngx-classes"
+      ],
+      "@bruno-bombonate/ngx-forms": [
+        "dist/bruno-bombonate/ngx-forms"
       ],
       "@bruno-bombonate/ngx-seo": [
         "dist/bruno-bombonate/ngx-seo"
       ],
-      "boilerplate-classes": [
-        "dist/boilerplate-classes"
-      ],
-      "boilerplate-google-analytics": [
-        "dist/boilerplate-google-analytics"
-      ],
       "boilerplate-toast": [
         "dist/boilerplate-toast"
-      ],
-      "teste-toast": [
-        "dist/teste-toast"
       ]
     },
     "outDir": "./dist/out-tsc",
