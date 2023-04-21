@@ -2,6 +2,11 @@
  * Public API Surface of ngx-classes
  */
 
-export * from './lib/ngx-classes.service';
-export * from './lib/ngx-classes.component';
-export * from './lib/ngx-classes.module';
+// classes
+export * from './lib/classes/on-destroy.class';
+export * from './lib/classes/list-container.class';
+export * from './lib/classes/list-component.class';
+export * from './lib/classes/form-component.class';
+
+// interfaces
+export * from './lib/interfaces/search-param.interface';

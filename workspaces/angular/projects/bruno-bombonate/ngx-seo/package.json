@@ -1,6 +1,6 @@
 {
-  "name": "@bruno-bombonate/ngx-classes",
-  "version": "1.0.2",
+  "name": "@bruno-bombonate/ngx-seo",
+  "version": "1.0.0",
   "peerDependencies": {
     "@angular/common": "^15.2.0",
     "@angular/core": "^15.2.0"

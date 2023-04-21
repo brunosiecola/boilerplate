@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SeoService } from '@bruno-bombonate/ngx-seo';
 import { BoilerplateToastService } from 'boilerplate-toast';
 
 @Component({
@@ -9,13 +10,14 @@ import { BoilerplateToastService } from 'boilerplate-toast';
 export class AppComponent implements OnInit {
 
   constructor(
-    private readonly boilerplateToastService: BoilerplateToastService
+    private readonly boilerplateToastService: BoilerplateToastService,
+    private readonly seoService: SeoService
   ) { }
 
   ngOnInit(): void {
+    this.seoService.init('Boilerplate');
     setTimeout(() => {
       this.boilerplateToastService.success('Lorem ipsum dolor sit amet.');
-      console.log(1);
     }, 1500);
   }
 

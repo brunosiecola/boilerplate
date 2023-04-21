@@ -7,11 +7,13 @@ import { BoilerplateToastModule } from 'boilerplate-toast';
 
 // containers
 import { AppComponent } from './app.component';
+import { HomeComponent } from './containers/home/home.component';
 
 @NgModule({
   declarations: [
     // containers
-    AppComponent
+    AppComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

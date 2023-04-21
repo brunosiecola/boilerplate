@@ -7,6 +7,9 @@
       "@bruno-bombonate/ngx-classes": [
         "dist/bruno-bombonate/ngx-classes"
       ],
+      "@bruno-bombonate/ngx-seo": [
+        "dist/bruno-bombonate/ngx-seo"
+      ],
       "boilerplate-classes": [
         "dist/boilerplate-classes"
       ],
