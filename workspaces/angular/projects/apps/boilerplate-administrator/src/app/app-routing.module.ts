@@ -1,19 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-// containers
-import { HomeComponent } from './containers/home/home.component';
-
 const routes: Routes = [
   {
     path: 'home',
-    component: HomeComponent,
-    data: {
-      title: 'Home',
-      meta: {
-        description: 'Lorem ipsum dolor sit amet.'
-      }
-    }
+    loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    redirectTo: 'home'
   }
 ];
 

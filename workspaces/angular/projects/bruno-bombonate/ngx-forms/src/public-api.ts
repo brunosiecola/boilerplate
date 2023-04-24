@@ -6,11 +6,11 @@
 export * from './lib/forms.module';
 
 // components
-export * from './lib/components/form-control-tip/form-control-tip.component';
-export * from './lib/components/form-control-error/form-control-error.component';
+export * from './lib/components/control-tip/control-tip.component';
+export * from './lib/components/control-error/control-error.component';
 
 // interfaces
-export * from './lib/interfaces/form-control-errors.interface';
+export * from './lib/interfaces/control-errors.interface';
 
 // constants
-export * from './lib/constants/form-control-errors.constant';
+export * from './lib/constants/control-errors.constant';

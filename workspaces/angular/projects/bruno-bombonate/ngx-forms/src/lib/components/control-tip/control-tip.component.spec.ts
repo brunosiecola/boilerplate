@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormControlTipComponent } from './form-control-tip.component';
+import { ControlTipComponent } from './control-tip.component';
 
-describe('FormControlTipComponent', () => {
-  let component: FormControlTipComponent;
-  let fixture: ComponentFixture<FormControlTipComponent>;
+describe('ControlTipComponent', () => {
+  let component: ControlTipComponent;
+  let fixture: ComponentFixture<ControlTipComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FormControlTipComponent ]
+      declarations: [ ControlTipComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FormControlTipComponent);
+    fixture = TestBed.createComponent(ControlTipComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,19 +1,40 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 // components
-import { FormControlTipComponent } from './components/form-control-tip/form-control-tip.component';
-import { FormControlErrorComponent } from './components/form-control-error/form-control-error.component';
+import { ControlTipComponent } from './components/control-tip/control-tip.component';
+import { ControlErrorComponent } from './components/control-error/control-error.component';
+
+// services
+import { FormsService } from './services/forms.service';
+
+// interfaces
+import { ControlErrors } from './interfaces/control-errors.interface';
 
 @NgModule({
   declarations: [
     // components
-    FormControlTipComponent,
-    FormControlErrorComponent
+    ControlTipComponent,
+    ControlErrorComponent
+  ],
+  imports: [
+    CommonModule
   ],
   exports: [
     // components
-    FormControlTipComponent,
-    FormControlErrorComponent
+    ControlTipComponent,
+    ControlErrorComponent
   ]
 })
-export class FormsModule { }
+export class FormsModule {
+
+  public static forRoot(controlErrorsCustom?: ControlErrors): ModuleWithProviders<FormsModule> {
+    return {
+      ngModule: FormsModule,
+      providers: [
+        { provide: 'controlErrorsCustom', useValue: controlErrorsCustom }
+      ]
+    };
+  }
+
+}
