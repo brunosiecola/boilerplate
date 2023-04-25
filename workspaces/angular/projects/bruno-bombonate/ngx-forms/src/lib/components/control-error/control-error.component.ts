@@ -20,7 +20,7 @@ export class ControlErrorComponent {
         if (controlError === undefined) {
           throw Error(`${key} error is not defined at controlErrors object. If you are using a custom validator use FormsModule.forRoot(controlErrorsCustom).`);
         }
-        return this.formsService.controlErrors[key](controlErrors[key]);
+        return controlError(controlErrors[key]);
       }
     }
     return undefined;

@@ -1,6 +1,6 @@
 import { Directive, OnChanges, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { OnDestroyClass } from './on-destroy.class';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, AbstractControl, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
@@ -61,11 +61,11 @@ export abstract class FormComponentClass extends OnDestroyClass implements OnCha
 
   }
 
-  public controlErrorMessageIsVisible(formControl: FormControl): boolean {
-    const formControlErrorsIsNotNull = formControl.errors !== null;
-    const formControlTouchedIsTrue = formControl.touched === true;
-    const formControlDirtyIsTrue = formControl.dirty === true;
-    return formControlErrorsIsNotNull && (formControlTouchedIsTrue || formControlDirtyIsTrue);
+  public controlErrorMessageIsVisible(control: AbstractControl | FormControl): boolean {
+    const controlErrorsIsNotNull = control.errors !== null;
+    const controlTouchedIsTrue = control.touched === true;
+    const controlDirtyIsTrue = control.dirty === true;
+    return controlErrorsIsNotNull && (controlTouchedIsTrue || controlDirtyIsTrue);
   }
 
   public handleNgSubmit(): void {

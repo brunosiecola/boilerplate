@@ -2,13 +2,16 @@
   <h1 class="my-3">App</h1>
   <form [formGroup]="form">
     <input type="text" formControlName="name">
-    <ng-container [ngSwitch]="controlErrorMessageIsVisible(form.controls['name'])">
+    <control-error *ngIf="controlErrorMessageIsVisible(form.controls['name'])"
+      [controlErrors]="form.controls['name'].errors">
+    </control-error>
+    <!-- <ng-container [ngSwitch]="controlErrorMessageIsVisible(form.controls['name'])">
       <control-tip *ngSwitchCase="false">
         Fill this field with your full name.
       </control-tip>
       <control-error *ngSwitchCase="true"
         [controlErrors]="form.controls['name'].errors">
       </control-error>
-    </ng-container>
+    </ng-container> -->
   </form>
 </div>

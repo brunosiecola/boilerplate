@@ -8,6 +8,8 @@ import { filter, map, mergeMap } from 'rxjs/operators';
 })
 export class SeoService {
 
+  public appName: string = '';
+
   constructor(
     private readonly title: Title,
     private readonly meta: Meta,
@@ -15,15 +17,15 @@ export class SeoService {
     private readonly activatedRoute: ActivatedRoute
   ) { }
 
-  private setTitle(title: string): void {
+  public setTitle(title: string): void {
     this.title.setTitle(title);
   }
 
-  private setMeta(meta: any): void {
+  public setMeta(meta: any): void {
     this.meta.updateTag(meta);
   }
 
-  private listenForRouteChanges(appName: string): void {
+  private listenForRouteChanges(): void {
     this.router.events.pipe(
       filter((event: any) => event instanceof NavigationEnd),
       map(() => this.activatedRoute),
@@ -37,10 +39,10 @@ export class SeoService {
       mergeMap((activatedRoute: ActivatedRoute) => activatedRoute.data)
     )
       .subscribe((data: undefined | any) => {
-        let title = appName;
+        let title = this.appName;
         if (data !== undefined) {
           if (data.title !== undefined) {
-            title = `${appName}: ${data.title}`;
+            title = `${this.appName}: ${data.title}`;
           }
           if (data.meta !== undefined) {
             if (data.meta.description !== undefined) {
@@ -53,7 +55,8 @@ export class SeoService {
   }
 
   public init(appName: string): void {
-    this.listenForRouteChanges(appName);
+    this.appName = appName;
+    this.listenForRouteChanges();
   }
 
 }
