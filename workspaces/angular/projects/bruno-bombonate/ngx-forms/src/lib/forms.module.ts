@@ -5,9 +5,6 @@ import { CommonModule } from '@angular/common';
 import { ControlTipComponent } from './components/control-tip/control-tip.component';
 import { ControlErrorComponent } from './components/control-error/control-error.component';
 
-// services
-import { FormsService } from './services/forms.service';
-
 // interfaces
 import { ControlErrors } from './interfaces/control-errors.interface';
 

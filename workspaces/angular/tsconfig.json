@@ -16,6 +16,9 @@
       "@bruno-bombonate/ngx-seo": [
         "dist/bruno-bombonate/ngx-seo"
       ],
+      "@bruno-bombonate/ngx-toast": [
+        "dist/bruno-bombonate/ngx-toast"
+      ],
       "boilerplate-toast": [
         "dist/boilerplate-toast"
       ]

@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 // modules
 import { ReactiveFormsModule } from '@angular/forms';
-// import { BoilerplateToastModule } from 'boilerplate-toast';
+import { ToastModule } from '@bruno-bombonate/ngx-toast';
 
 // containers
 import { AppComponent } from './app.component';
@@ -19,6 +19,7 @@ import { AppComponent } from './app.component';
     AppRoutingModule,
     // modules
     ReactiveFormsModule,
+    ToastModule
     // BoilerplateToastModule
   ],
   bootstrap: [AppComponent]

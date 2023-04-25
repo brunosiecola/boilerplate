@@ -401,72 +401,6 @@
         }
       }
     },
-    "boilerplate-classes": {
-      "projectType": "library",
-      "root": "projects/libs/boilerplate-classes",
-      "sourceRoot": "projects/libs/boilerplate-classes/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "project": "projects/libs/boilerplate-classes/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/libs/boilerplate-classes/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/libs/boilerplate-classes/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "tsConfig": "projects/libs/boilerplate-classes/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ]
-          }
-        }
-      }
-    },
-    "boilerplate-toast": {
-      "projectType": "library",
-      "root": "projects/libs/boilerplate-toast",
-      "sourceRoot": "projects/libs/boilerplate-toast/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "project": "projects/libs/boilerplate-toast/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/libs/boilerplate-toast/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/libs/boilerplate-toast/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "tsConfig": "projects/libs/boilerplate-toast/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ]
-          }
-        }
-      }
-    },
     "@bruno-bombonate/ngx-classes": {
       "projectType": "library",
       "root": "projects/bruno-bombonate/ngx-classes",
@@ -591,6 +525,39 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "tsConfig": "projects/bruno-bombonate/ngx-forms/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "@bruno-bombonate/ngx-toast": {
+      "projectType": "library",
+      "root": "projects/bruno-bombonate/ngx-toast",
+      "sourceRoot": "projects/bruno-bombonate/ngx-toast/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/bruno-bombonate/ngx-toast/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/bruno-bombonate/ngx-toast/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/bruno-bombonate/ngx-toast/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/bruno-bombonate/ngx-toast/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"

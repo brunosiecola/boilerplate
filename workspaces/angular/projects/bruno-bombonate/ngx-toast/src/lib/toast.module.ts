@@ -2,19 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // components
-import { BoilerplateToastComponent } from './boilerplate-toast.component';
+import { ToastComponent } from './components/toast/toast.component';
 
 @NgModule({
   declarations: [
     // components
-    BoilerplateToastComponent
+    ToastComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
     // components
-    BoilerplateToastComponent
+    ToastComponent
   ]
 })
-export class BoilerplateToastModule { }
+export class ToastModule { }
