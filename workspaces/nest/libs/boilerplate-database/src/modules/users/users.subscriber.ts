@@ -17,6 +17,7 @@ export class UsersSubscriber implements EntitySubscriberInterface<User> {
 
   public async beforeInsert(insertEvent: InsertEvent<User>): Promise<void> {
     insertEvent.entity.password = await hash(insertEvent.entity.password, 10);
+    insertEvent.entity.status = true;
     insertEvent.entity.createdAt = Date.now();
   }
 

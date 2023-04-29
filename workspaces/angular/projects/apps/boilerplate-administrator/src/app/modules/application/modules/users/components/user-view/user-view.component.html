@@ -1,0 +1,35 @@
+<p class="view-label">
+  ID
+  <span>
+    {{ user.id }}
+  </span>
+</p>
+<p class="view-label">
+  Name
+  <span>
+    {{ user.name }}
+  </span>
+</p>
+<p class="view-label">
+  Email
+  <span>
+    {{ user.email }}
+  </span>
+</p>
+<p class="view-label">
+  Status
+  <span>
+    <span
+      class="badge"
+      [class.badge-green]="user.status === true"
+      [class.badge-red]="user.status === false">
+      {{ user.status | status }}
+    </span>
+  </span>
+</p>
+<p class="view-label mb-0">
+  Registration date
+  <span>
+    {{ user.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}
+  </span>
+</p>

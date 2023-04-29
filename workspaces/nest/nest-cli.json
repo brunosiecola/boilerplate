@@ -36,6 +36,17 @@
       "compilerOptions": {
         "tsConfigPath": "libs/boilerplate-database/tsconfig.lib.json"
       }
+    },
+    "boilerplate-email": {
+      "type": "library",
+      "root": "libs/boilerplate-email",
+      "entryFile": "index",
+      "sourceRoot": "libs/boilerplate-email/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/boilerplate-email/tsconfig.lib.json",
+        "assets": ["templates/**/*"],
+        "watchAssets": true
+      }
     }
   }
 }

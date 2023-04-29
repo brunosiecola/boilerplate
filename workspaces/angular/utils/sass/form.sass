@@ -1,0 +1,38 @@
+
+@import 'imports/variables'
+
+select
+  color: $COLOR_BLACK
+
+textarea
+  min-height: (25px * 4) + (8px * 2) !important
+  max-height: (25px * 8) + (8px * 2) !important
+
+.form-label
+  display: block
+  font-size: 14px
+  font-weight: 300
+  line-height: 1
+  margin: 0px 0px 0px 0px
+
+.form-control
+  width: 100%
+  min-height: 41px
+  background-color: transparent
+  padding: 8px 0px 8px 0px
+  border-width: 0px 0px 1px 0px
+  border-style: solid solid solid solid
+  border-color: $COLOR_BLACK $COLOR_BLACK $COLOR_BLACK $COLOR_BLACK
+  border-radius: 0px 0px 0px 0px
+  outline: none
+  transition: opacity 0.25s
+  &:disabled
+    border-style: dashed dashed dashed dashed
+    opacity: 0.5
+    cursor: not-allowed
+
+control-error,
+.control-error
+  font-size: 12px
+  color: $COLOR_RED
+  margin: 4px 0px 0px 0px

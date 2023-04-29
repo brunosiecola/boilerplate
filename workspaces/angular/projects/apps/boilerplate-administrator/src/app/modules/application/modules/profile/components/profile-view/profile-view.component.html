@@ -1,0 +1,35 @@
+<p class="view-label">
+  ID
+  <span>
+    {{ profile.id }}
+  </span>
+</p>
+<p class="view-label">
+  Name
+  <span>
+    {{ profile.name }}
+  </span>
+</p>
+<p class="view-label">
+  Email
+  <span>
+    {{ profile.email }}
+  </span>
+</p>
+<p class="view-label">
+  Status
+  <span>
+    <span
+      class="badge"
+      [class.badge-green]="profile.status === true"
+      [class.badge-red]="profile.status === false">
+      {{ profile.status | status }}
+    </span>
+  </span>
+</p>
+<p class="view-label mb-0">
+  Registration date
+  <span>
+    {{ profile.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}
+  </span>
+</p>

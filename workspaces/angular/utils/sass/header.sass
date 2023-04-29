@@ -1,0 +1,30 @@
+
+@import 'imports/variables'
+@import 'imports/media-queries'
+
+.nav-button-open
+  position: relative
+  display: flex
+  justify-content: center
+  align-items: center
+  width: 44px
+  height: 44px
+  background-color: transparent
+  font-size: 0
+  padding: 0px 0px 0px 0px
+  border-width: 0px 0px 0px 0px
+  > span
+    > span
+      display: block
+      width: 24px
+      height: 3px
+      background-color: $COLOR_BLACK
+      margin: 6px 0px 6px 0px
+      &:first-child
+        margin-top: 0px
+      &:last-child
+        margin-bottom: 0px
+
+@include MQ(LG)
+  .nav-button-open
+    display: none

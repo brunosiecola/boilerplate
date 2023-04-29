@@ -6,12 +6,15 @@ import { JwtModule } from '@nestjs/jwt';
 
 // entities
 import { Administrator } from '@app/boilerplate-database/modules/administrators/entities/administrator.entity';
+import { AdministratorResetPassword } from '@app/boilerplate-database/modules/administrators/entities/administrator-reset-password.entity';
 
 // controllers
 import { AdministratorsController } from './administrators.controller';
 
 // services
 import { AdministratorsService } from './administrators.service';
+import { AdministratorsResetPasswordService } from './administrators-reset-password.service';
+import { BoilerplateEmailService } from '@app/boilerplate-email';
 
 // strategies
 import { JwtStrategy } from '../../utils/strategies/jwt/jwt.strategy';
@@ -19,7 +22,7 @@ import { JwtStrategy } from '../../utils/strategies/jwt/jwt.strategy';
 @Module({
   imports: [
     // modules
-    TypeOrmModule.forFeature([Administrator]),
+    TypeOrmModule.forFeature([Administrator, AdministratorResetPassword]),
     JwtModule.registerAsync({
       useFactory: async () => {
         return {
@@ -38,6 +41,8 @@ import { JwtStrategy } from '../../utils/strategies/jwt/jwt.strategy';
   providers: [
     // services
     AdministratorsService,
+    AdministratorsResetPasswordService,
+    BoilerplateEmailService,
     // strategies
     JwtStrategy
   ]

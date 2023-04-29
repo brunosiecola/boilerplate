@@ -1,44 +1,13 @@
 
-@import '~bootstrap/dist/css/bootstrap-reboot.min.css'
-@import '~bootstrap/dist/css/bootstrap-grid.min.css'
-
-$TOAST_MIN_WIDTH: 390px
-$TOAST_BACKGROUND_COLOR: #000000
-$TOAST_COLOR: #FFFFFF
-
-$TOAST_SUCCESS_BACKGROUND_COLOR: #28A745
-$TOAST_SUCCESS_COLOR: #FFFFFF
-
-$TOAST_ERROR_BACKGROUND_COLOR: #DC3545
-$TOAST_ERROR_COLOR: #FFFFFF
-
-toast
-  position: fixed
-  z-index: 1
-  bottom: 0px
-  left: 0px
-  display: block
-  min-width: $TOAST_MIN_WIDTH
-  width: 100%
-  text-align: center
-  padding: 0px 32px 32px 32px
-  transform: translate(0px, 100%)
-
-.toast
-  display: inline-flex
-  align-items: center
-  background-color: $TOAST_BACKGROUND_COLOR
-  line-height: 1
-  text-align: left
-  color: $TOAST_COLOR
-  padding: 16px 16px 16px 16px
-  border-radius: 4px 4px 4px 4px
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.10)
-
-.toast-success
-  background-color: $TOAST_SUCCESS_BACKGROUND_COLOR
-  color: $TOAST_SUCCESS_COLOR
-
-.toast-error
-  background-color: $TOAST_ERROR_BACKGROUND_COLOR
-  color: $TOAST_ERROR_COLOR
+@import 'utils/sass/main'
+@import 'utils/sass/header'
+@import 'utils/sass/nav'
+@import 'utils/sass/heading'
+@import 'utils/sass/section'
+@import 'utils/sass/card'
+@import 'utils/sass/form'
+@import 'utils/sass/button'
+@import 'utils/sass/table'
+@import 'utils/sass/view'
+@import 'utils/sass/badge'
+@import 'utils/sass/toast'

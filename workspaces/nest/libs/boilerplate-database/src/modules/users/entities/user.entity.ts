@@ -15,6 +15,9 @@ export class User {
   @Column({ type: 'varchar', length: 60, nullable: false })
   password: string;
 
+  @Column({ type: 'boolean', nullable: false })
+  status: boolean;
+
   @Column({ type: 'bigint', nullable: false })
   createdAt: number;
 

@@ -12,6 +12,7 @@ export class UsersService {
       user.name AS user_name,
       user.email AS user_email,
       user.password AS user_password,
+      user.status AS user_status,
       user.createdAt AS user_createdAt
     `;
 
@@ -32,6 +33,9 @@ export class UsersService {
     }
     if (options?.where?.email) {
       query.andWhere('user.email LIKE :email', { email: `%${options.where.email}%` });
+    }
+    if (options?.where?.status) {
+      query.andWhere('user.status = :status', { status: options.where.status });
     }
     if (options?.orderBy) {
       query.orderBy(options.orderBy);

@@ -2,8 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Administrator } from '@app/boilerplate-database/modules/administrators/entities/administrator.entity';
 import { Repository, InsertResult, UpdateResult, SelectQueryBuilder } from 'typeorm';
-import { AdministratorCreateDto } from './dto/administrator-create.dto';
-import { AdministratorUpdateDto } from './dto/administrator-update.dto';
 
 @Injectable()
 export class AdministratorsService {
@@ -23,12 +21,12 @@ export class AdministratorsService {
     private readonly administratorRepository: Repository<Administrator>
   ) { }
 
-  public async create(administratorCreateDto: AdministratorCreateDto): Promise<InsertResult> {
-    return await this.administratorRepository.insert(administratorCreateDto);
+  public async create(administrator: Partial<Administrator>): Promise<InsertResult> {
+    return await this.administratorRepository.insert(administrator);
   }
 
-  public async update(where: any, administratorUpdateDto: AdministratorUpdateDto): Promise<UpdateResult> {
-    return await this.administratorRepository.update(where, administratorUpdateDto);
+  public async update(where: any, administrator: Partial<Administrator>): Promise<UpdateResult> {
+    return await this.administratorRepository.update(where, administrator);
   }
 
   public async findAll(options?: any): Promise<SelectQueryBuilder<Administrator>> {

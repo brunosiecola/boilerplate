@@ -23,6 +23,12 @@
       ],
       "@app/boilerplate-database/*": [
         "libs/boilerplate-database/src/*"
+      ],
+      "@app/boilerplate-email": [
+        "libs/boilerplate-email/src"
+      ],
+      "@app/boilerplate-email/*": [
+        "libs/boilerplate-email/src/*"
       ]
     }
   }

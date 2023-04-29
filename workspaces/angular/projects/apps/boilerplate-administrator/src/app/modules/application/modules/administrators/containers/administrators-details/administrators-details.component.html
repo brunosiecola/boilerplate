@@ -1,0 +1,8 @@
+<h1>Administrator details</h1>
+<div class="card">
+  <app-administrator-form *ngIf="administrator !== undefined"
+    [formData]="administrator"
+    [formLoading]="formLoading"
+    (formSubmit)="handleFormSubmit($event)">
+  </app-administrator-form>
+</div>
