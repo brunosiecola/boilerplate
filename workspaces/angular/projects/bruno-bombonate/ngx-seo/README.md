@@ -9,6 +9,13 @@ A package with SeoService, that you can set title and meta description for route
 npm install @bruno-bombonate/ngx-seo
 ```
 
+### Compatibility table
+
+|@bruno-bombonate/ngx-seo|Angular|
+|-|-|
+|1.1.0|15.x|
+|2.0.0|16.x|
+
 ## Usage
 
 ### app.component.ts
