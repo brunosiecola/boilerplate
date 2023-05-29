@@ -9,6 +9,13 @@ A package with ToastComponent and ToastService, that you can show success and er
 npm install @bruno-bombonate/ngx-toast
 ```
 
+### Compatibility table
+
+|@bruno-bombonate/ngx-toast|Angular|
+|-|-|
+|1.0.0|15.x|
+|2.0.0|16.x|
+
 ## Usage
 
 ### app.module.ts
