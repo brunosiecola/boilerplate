@@ -9,6 +9,13 @@ A package with FormsModule containing ControlTipComponent and ControlErrorCompon
 npm install @bruno-bombonate/ngx-forms
 ```
 
+### Compatibility table
+
+|@bruno-bombonate/ngx-forms|Angular|
+|-|-|
+|3.0.3|15.x|
+|4.0.0|16.x|
+
 ## Usage
 
 ### Import without overriding or adding custom errors.
