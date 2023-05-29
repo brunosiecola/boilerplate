@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthenticationService } from '@bruno-bombonate/ngx-authentication';
 import { ToastService } from '@bruno-bombonate/ngx-toast';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ApplicationGuard implements CanActivate {
+export class ApplicationGuard  {
 
   constructor(
     private readonly authenticationService: AuthenticationService,
