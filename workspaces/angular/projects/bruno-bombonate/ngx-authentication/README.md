@@ -9,6 +9,13 @@ A package with AuthenticationService, that you can set, get and unset authentica
 npm install @bruno-bombonate/ngx-authentication
 ```
 
+### Compatibility table
+
+|@bruno-bombonate/ngx-authentication|Angular|
+|-|-|
+|1.0.0|15.x|
+|2.0.0|16.x|
+
 ## Usage
 
 ### sign-in.component.ts
