@@ -9,6 +9,13 @@ A package with base classes that are frequently used in my Angular projects.
 npm install @bruno-bombonate/ngx-classes
 ```
 
+### Compatibility table
+
+|@bruno-bombonate/ngx-classes|Angular|
+|-|-|
+|1.2.0|15.x|
+|2.0.0|16.x|
+
 ## Usage
 
 ### ListContainerClass
