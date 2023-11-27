@@ -15,6 +15,7 @@ npm install @bruno-bombonate/ngx-authentication
 |-|-|
 |1.0.0|15.x|
 |2.0.0|16.x|
+|3.0.0|17.x|
 
 ## Usage
 

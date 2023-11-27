@@ -80,13 +80,13 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "local": {
-              "browserTarget": "boilerplate-user:build:local"
+              "buildTarget": "boilerplate-user:build:local"
             },
             "development": {
-              "browserTarget": "boilerplate-user:build:development"
+              "buildTarget": "boilerplate-user:build:development"
             },
             "production": {
-              "browserTarget": "boilerplate-user:build:production"
+              "buildTarget": "boilerplate-user:build:production"
             }
           },
           "defaultConfiguration": "local"
@@ -94,7 +94,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "boilerplate-user:build"
+            "buildTarget": "boilerplate-user:build"
           }
         },
         "test": {
@@ -164,7 +164,7 @@
           "defaultConfiguration": "local"
         },
         "serve-ssr": {
-          "builder": "@nguniversal/builders:ssr-dev-server",
+          "builder": "@angular-devkit/build-angular:ssr-dev-server",
           "configurations": {
             "local": {
               "browserTarget": "boilerplate-user:build:local",
@@ -182,7 +182,7 @@
           "defaultConfiguration": "local"
         },
         "prerender": {
-          "builder": "@nguniversal/builders:prerender",
+          "builder": "@angular-devkit/build-angular:prerender",
           "options": {
             "routes": [
               "/"
@@ -283,13 +283,13 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "local": {
-              "browserTarget": "boilerplate-administrator:build:local"
+              "buildTarget": "boilerplate-administrator:build:local"
             },
             "development": {
-              "browserTarget": "boilerplate-administrator:build:development"
+              "buildTarget": "boilerplate-administrator:build:development"
             },
             "production": {
-              "browserTarget": "boilerplate-administrator:build:production"
+              "buildTarget": "boilerplate-administrator:build:production"
             }
           },
           "defaultConfiguration": "local"
@@ -297,7 +297,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "boilerplate-administrator:build"
+            "buildTarget": "boilerplate-administrator:build"
           }
         },
         "test": {
@@ -367,7 +367,7 @@
           "defaultConfiguration": "local"
         },
         "serve-ssr": {
-          "builder": "@nguniversal/builders:ssr-dev-server",
+          "builder": "@angular-devkit/build-angular:ssr-dev-server",
           "configurations": {
             "local": {
               "browserTarget": "boilerplate-administrator:build:local",
@@ -385,7 +385,7 @@
           "defaultConfiguration": "local"
         },
         "prerender": {
-          "builder": "@nguniversal/builders:prerender",
+          "builder": "@angular-devkit/build-angular:prerender",
           "options": {
             "routes": [
               "/"
