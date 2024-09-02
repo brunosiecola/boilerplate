@@ -1,6 +1,9 @@
 
 @import 'imports/variables'
 
+table
+  width: 100%
+
 .table-responsive
   max-width: 100%
   overflow: auto
@@ -15,33 +18,44 @@
 .tfoot
   display: table-row-group
 
+.tfoot
+  font-weight: 500
+
 .tr
   display: table-row
   font-size: inherit
   font-weight: inherit
   text-decoration: inherit !important
 
-a.tr
-  cursor: pointer
-  transition: background-color 0.25s, color 0.25s
-  &:hover
-    background-color: $COLOR_BLACK !important
-    color: $COLOR_WHITE
-
-.th
-  font-size: 14px
-  font-weight: 300
-
 .th,
 .td
   display: table-cell
   vertical-align: middle
+  width: 0px
   height: 28px
-  padding: 0px 8px 0px 8px
+  padding: 0px 6px 0px 6px
   white-space: nowrap
-  &:first-child,
+  &:first-child
+    padding-left: 12px
   &:last-child
-    padding: 0px 16px 0px 16px
+    padding-right: 12px
+
+.td-full
+  width: 100%
+  max-width: 0px
+  text-overflow: ellipsis
+  overflow: hidden
+
+.table-hover .tbody .tr
+  cursor: pointer
+  transition: background-color 0.35s, color 0.35s
+  &:hover
+    background-color: $COLOR_BLACK !important
+    color: $COLOR_WHITE
 
 .table-striped .tbody .tr:nth-child(2n+1)
   background-color: #F5F5F5
+
+.percentage
+  font-size: 12px
+  line-height: 17px

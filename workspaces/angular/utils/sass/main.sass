@@ -1,16 +1,38 @@
 
 @import 'imports/variables'
 
+html,
+body
+  height: 100%
+
 body
   min-width: $MIN_WIDTH
+  background-color: $COLOR_WHITE
   font-family: 'Roboto'
   font-size: 16px
   line-height: 1.5
+  color: $COLOR_BLACK
+  print-color-adjust: exact
 
 a
   font-weight: 300
   text-decoration: none
   color: $COLOR_BLACK
   &:hover
-    color: inherit
     text-decoration: underline
+    color: inherit
+
+.container
+  max-width: 1326px
+
+.form-label,
+.view-label,
+.th,
+th
+  font-size: 14px
+  font-weight: 500
+  text-transform: uppercase
+
+.form-control,
+.td
+  text-transform: uppercase
