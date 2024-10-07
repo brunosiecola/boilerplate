@@ -1,43 +1,54 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '@app/boilerplate-database/modules/users/entities/user.entity';
-import { Repository, InsertResult, UpdateResult } from 'typeorm';
+import { Repository, SelectQueryBuilder, InsertResult, FindOptionsWhere, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class UsersService {
 
-  private readonly QUERY_SELECT: string =
-    `
-      user.id AS user_id,
-      user.name AS user_name,
-      user.email AS user_email,
-      user.password AS user_password,
-      user.status AS user_status,
-      user.createdAt AS user_createdAt
-    `;
-
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>
+    private readonly repository: Repository<User>
   ) { }
 
-  public async create(user: Partial<User>): Promise<InsertResult> {
-    return await this.userRepository.insert(user);
-  }
+  private userQuery(options?: { where?: any }): SelectQueryBuilder<any> {
 
-  public async update(where: any, user: Partial<User>): Promise<UpdateResult> {
-    return await this.userRepository.update(where, user);
-  }
+    const query = this.repository
+      .createQueryBuilder('user');
 
-  public async findOne(options: any): Promise<any> {
-    const query = this.userRepository
-      .createQueryBuilder('user')
-      .select(this.QUERY_SELECT);
-    if (options?.where) {
-      query.where(options.where);
+    if (options?.where?.userId) {
+      query.andWhere('user.id = :userId', { userId: options.where.userId });
     }
-    const user = await query.getRawOne();
-    return user;
+    if (options?.where?.userEmail) {
+      query.andWhere('user.email = :userEmail', { userEmail: options.where.userEmail });
+    }
+
+    return query;
+
+  }
+
+  public createUser(user: Partial<User>): Promise<InsertResult> {
+    return this.repository.insert(user);
+  }
+
+  public updateUser(where: FindOptionsWhere<User>, user: Partial<User>): Promise<UpdateResult> {
+    return this.repository.update(where, user);
+  }
+
+  public getUsers(options?: { where?: any, orderBy?: any, offset?: number, limit?: number }): SelectQueryBuilder<any[]> {
+    const usersQuery = this.userQuery(options);
+    return usersQuery;
+  }
+
+  public getUser(options?: { where?: any }): Promise<null | any> {
+    const userQuery = this.userQuery(options);
+    return userQuery.getOne();
+  }
+
+  public getUserWithPassword(options?: { where?: any }): Promise<null | any> {
+    const userQuery = this.userQuery(options)
+      .addSelect('user.password', 'user_password');
+    return userQuery.getOne();
   }
 
 }

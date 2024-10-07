@@ -13,10 +13,12 @@ import { takeUntil } from 'rxjs';
 export class UsersListComponent extends ListContainerClass {
 
   public override listSearchParamsList = [
-    { name: 'id', type: SearchParamType.QueryParam, valueType: SearchParamValueType.Number },
-    { name: 'name', type: SearchParamType.QueryParam, valueType: SearchParamValueType.String },
-    { name: 'email', type: SearchParamType.QueryParam, valueType: SearchParamValueType.String },
-    { name: 'status', type: SearchParamType.QueryParam, valueType: SearchParamValueType.Boolean }
+    { name: 'userId', type: SearchParamType.QueryParam, valueType: SearchParamValueType.Number },
+    { name: 'userName', type: SearchParamType.QueryParam, valueType: SearchParamValueType.String },
+    { name: 'userEmail', type: SearchParamType.QueryParam, valueType: SearchParamValueType.String },
+    { name: 'userStatus', type: SearchParamType.QueryParam, valueType: SearchParamValueType.Boolean },
+    { name: 'orderBy', type: SearchParamType.QueryParam, valueType: SearchParamValueType.String },
+    { name: 'orderByDirection', type: SearchParamType.QueryParam, valueType: SearchParamValueType.String }
   ];
 
   constructor(

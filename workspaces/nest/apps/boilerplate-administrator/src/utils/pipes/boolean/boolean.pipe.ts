@@ -1,7 +1,7 @@
 import { Injectable, PipeTransform } from '@nestjs/common';
 
 @Injectable()
-export class StatusPipe implements PipeTransform {
+export class BooleanPipe implements PipeTransform {
 
   transform(value: null | 'true' | 'false'): null | '1' | '0' {
     switch (value) {

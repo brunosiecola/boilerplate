@@ -6,58 +6,59 @@ import { Repository, SelectQueryBuilder } from 'typeorm';
 @Injectable()
 export class UsersService {
 
-  private readonly QUERY_SELECT: string =
-    `
-      user.id AS user_id,
-      user.name AS user_name,
-      user.email AS user_email,
-      user.password AS user_password,
-      user.status AS user_status,
-      user.createdAt AS user_createdAt
-    `;
-
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>
+    private readonly repository: Repository<User>
   ) { }
 
-  public async findAll(options?: any): Promise<SelectQueryBuilder<User>> {
-    const query = this.userRepository
-      .createQueryBuilder('user')
-      .select(this.QUERY_SELECT);
-    if (options?.where?.id) {
-      query.andWhere('user.id = :id', { id: options.where.id });
+  private userQuery(options?: { where?: any, orderBy?: any, offset?: number, limit?: number }): SelectQueryBuilder<any> {
+
+    const query = this.repository
+      .createQueryBuilder('user');
+
+    if (options?.where?.userId) {
+      query.andWhere('user.id = :userId', { userId: options.where.userId });
     }
-    if (options?.where?.name) {
-      query.andWhere('user.name LIKE :name', { name: `%${options.where.name}%` });
+    if (options?.where?.userName) {
+      query.andWhere('user.name LIKE :userName', { userName: `%${options.where.userName}%` });
     }
-    if (options?.where?.email) {
-      query.andWhere('user.email LIKE :email', { email: `%${options.where.email}%` });
+    if (options?.where?.userEmail) {
+      query.andWhere('user.email LIKE :userEmail', { userEmail: `%${options.where.userEmail}%` });
     }
-    if (options?.where?.status) {
-      query.andWhere('user.status = :status', { status: options.where.status });
+    if (options?.where?.userStatus) {
+      query.andWhere('user.status = :userStatus', { userStatus: options.where.userStatus });
     }
-    if (options?.orderBy) {
-      query.orderBy(options.orderBy);
+
+    if (options?.orderBy?.userId) {
+      query.orderBy('user.id', options.orderBy.userId);
+    } else if (options?.orderBy?.userName) {
+      query.orderBy('user.name', options.orderBy.userName);
+    } else if (options?.orderBy?.userEmail) {
+      query.orderBy('user.email', options.orderBy.userEmail);
+    } else if (options?.orderBy?.userStatus) {
+      query.orderBy('user.status', options.orderBy.userStatus);
     }
+
     if (options?.offset) {
       query.offset(options.offset);
     }
+
     if (options?.limit) {
       query.limit(options.limit);
     }
+
     return query;
+
   }
 
-  public async findOne(options: any): Promise<any> {
-    const query = this.userRepository
-      .createQueryBuilder('user')
-      .select(this.QUERY_SELECT);
-    if (options?.where) {
-      query.where(options.where);
-    }
-    const user = await query.getRawOne();
-    return user;
+  public getUsers(options?: { where?: any, orderBy?: any, offset?: number, limit?: number }): SelectQueryBuilder<any[]> {
+    const usersQuery = this.userQuery(options);
+    return usersQuery;
+  }
+
+  public getUser(options?: { where?: any }): Promise<null | any> {
+    const userQuery = this.userQuery(options)
+    return userQuery.getOne();
   }
 
 }

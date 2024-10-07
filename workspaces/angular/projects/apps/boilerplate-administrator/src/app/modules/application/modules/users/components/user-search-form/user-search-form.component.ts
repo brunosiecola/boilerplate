@@ -11,10 +11,10 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class UserSearchFormComponent extends FormComponentClass {
 
   public override form = new FormGroup({
-    id: new FormControl(null),
-    name: new FormControl(null),
-    email: new FormControl(null),
-    status: new FormControl(null)
+    userId: new FormControl<null | number>(null),
+    userName: new FormControl<null | string>(null),
+    userEmail: new FormControl<null | string>(null),
+    userStatus: new FormControl<null | boolean>(null)
   });
 
 }

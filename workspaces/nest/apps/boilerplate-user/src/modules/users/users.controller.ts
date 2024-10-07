@@ -6,11 +6,9 @@ import { JwtService } from '@nestjs/jwt';
 import { BoilerplateEmailService } from '@app/boilerplate-email';
 import { compare } from 'bcryptjs';
 import { JwtGuard } from '../../utils/guards/jwt/jwt.guard';
-import { userMapForUser, userMap } from '@app/boilerplate-database/modules/users/functions/user-map.function';
 import { UserSignUpDto } from './dto/user-sign-up.dto';
 import { UserSignInDto } from './dto/user-sign-in.dto';
 import { UserResetPasswordCreateDto } from './dto/user-reset-password-create.dto';
-import { userResetPasswordMap } from '@app/boilerplate-database/modules/users/functions/user-reset-password-map.function';
 import { UserResetPasswordPatchDto } from './dto/user-reset-password-patch.dto';
 import { UserChangePasswordDto } from './dto/user-change-password.dto';
 
@@ -28,20 +26,17 @@ export class UsersController {
   @Post('sign-up')
   public async signUp(
     @Body() userSignUpDto: UserSignUpDto
-  ): Promise<any> {
+  ) {
 
-    const userFound = await this.usersService.findOne({ where: { email: userSignUpDto.email } });
-    if (userFound !== undefined) {
+    const userFound = await this.usersService.getUser({ where: { userEmail: userSignUpDto.email } });
+    if (userFound !== null) {
       throw new HttpException('An user with that email already exists.', HttpStatus.BAD_REQUEST);
     }
 
-    const userCreatedId = (await this.usersService.create(userSignUpDto)).raw.insertId;
-    const userCreated = await this.usersService.findOne({ where: { id: userCreatedId } });
-    const userCreatedMappedForUser = userMapForUser(userCreated);
+    await this.usersService.createUser(userSignUpDto);
 
     return {
-      message: 'Your account has been successfully created.',
-      data: userCreatedMappedForUser
+      message: 'Your account has been successfully created.'
     };
 
   }
@@ -49,30 +44,28 @@ export class UsersController {
   @Post('sign-in')
   public async signIn(
     @Body() userSignInDto: UserSignInDto
-  ): Promise<any> {
+  ) {
 
     const message = 'Email or password is incorrect.';
 
-    const userFound = await this.usersService.findOne({ where: { email: userSignInDto.email } });
-    if (userFound === undefined) {
+    const userFound = await this.usersService.getUserWithPassword({ where: { userEmail: userSignInDto.email } });
+    if (userFound === null) {
       throw new HttpException(message, HttpStatus.BAD_REQUEST);
     }
 
-    const userFoundMapped = userMap(userFound);
-
-    const isPasswordCorrect = await compare(userSignInDto.password, userFoundMapped.password);
+    const isPasswordCorrect = await compare(userSignInDto.password, userFound.password);
     if (isPasswordCorrect === false) {
       throw new HttpException(message, HttpStatus.BAD_REQUEST);
     }
 
-    if (userFoundMapped.status === false) {
-      throw new HttpException('Your user is inactive. Please contact your user to enable it.', HttpStatus.BAD_REQUEST);
+    if (userFound.status === false) {
+      throw new HttpException('Your user is inactive. Please contact administrator to enable it.', HttpStatus.BAD_REQUEST);
     }
 
     return {
       message: 'Your session has been successfully started.',
       data: {
-        accessToken: this.jwtService.sign({ id: userFoundMapped.id }),
+        accessToken: this.jwtService.sign({ id: userFound.id }),
         expiresIn: +process.env.APP_BOILERPLATE_USER_API_EXPIRES_IN
       }
     };
@@ -82,32 +75,28 @@ export class UsersController {
   @Post('reset-password')
   public async resetPasswordRequest(
     @Body() userResetPasswordCreateDto: UserResetPasswordCreateDto
-  ): Promise<any> {
+  ) {
 
-    const userFound = await this.usersService.findOne({ where: { email: userResetPasswordCreateDto.email } });
-    if (userFound === undefined) {
+    const userFound = await this.usersService.getUser({ where: { userEmail: userResetPasswordCreateDto.email } });
+    if (userFound === null) {
       throw new HttpException('This email is incorrect.', HttpStatus.BAD_REQUEST);
     }
 
-    const userFoundMapped = userMap(userFound);
-
-    if (userFoundMapped.status === false) {
-      throw new HttpException('Your user is inactive. Please contact your user to enable it.', HttpStatus.BAD_REQUEST);
+    if (userFound.status === false) {
+      throw new HttpException('Your user is inactive. Please contact administrator to enable it.', HttpStatus.BAD_REQUEST);
     }
 
-    const userResetPasswordCreatedId = (await this.usersResetPasswordService.create({ userId: userFoundMapped.id })).raw.insertId;
-    const userResetPasswordCreated = await this.usersResetPasswordService.findOne({ where: { id: userResetPasswordCreatedId } });
-    const userResetPasswordCreatedMapped = userResetPasswordMap(userResetPasswordCreated);
+    const userResetPasswordCreatedId = (await this.usersResetPasswordService.createUserResetPassword({ userId: userFound.id })).raw.insertId;
+    const userResetPasswordCreated = await this.usersResetPasswordService.getUserResetPassword({ where: { userResetPasswordId: userResetPasswordCreatedId } });
 
     this.boilerplateEmailService.sendResetPasswordEmail(
-      userFoundMapped.email,
-      userFoundMapped.name,
-      `${process.env.APP_BOILERPLATE_USER_WEB_URL}/reset-password?token=${userResetPasswordCreatedMapped.token}`
+      userFound.email,
+      userFound.name,
+      `${process.env.APP_BOILERPLATE_USER_WEB_URL}/reset-password?token=${userResetPasswordCreated.token}`
     );
 
     return {
-      message: 'The password reset email has been sent successfully.',
-      data: userResetPasswordCreatedMapped
+      message: 'The password reset email has been sent successfully.'
     };
 
   }
@@ -116,23 +105,20 @@ export class UsersController {
   public async resetPassword(
     @Param('userResetPasswordToken') userResetPasswordToken: string,
     @Body() userResetPasswordPatchDto: UserResetPasswordPatchDto
-  ): Promise<any> {
+  ) {
 
-    const userResetPasswordFound = await this.usersResetPasswordService.findOne({ where: { token: userResetPasswordToken } });
+    const userResetPasswordFound = await this.usersResetPasswordService.getUserResetPassword({ where: { userResetPasswordToken } });
     if (userResetPasswordFound === undefined) {
       throw new HttpException('This password reset link does not exist.', HttpStatus.BAD_REQUEST);
     }
 
-    const userResetPasswordFoundMapped = userResetPasswordMap(userResetPasswordFound);
+    const userFound = await this.usersService.getUser({ where: { userId: userResetPasswordFound.userId } });
 
-    const userFound = await this.usersService.findOne({ where: { id: userResetPasswordFoundMapped.userId } });
-    const userFoundMapped = userMap(userFound);
-
-    if (userFoundMapped.status === false) {
-      throw new HttpException('Your user is inactive. Please contact your user to enable it.', HttpStatus.BAD_REQUEST);
+    if (userFound.status === false) {
+      throw new HttpException('Your user is inactive. Please contact administrator to enable it.', HttpStatus.BAD_REQUEST);
     }
 
-    if (userResetPasswordFoundMapped.updatedAt !== null) {
+    if (userResetPasswordFound.updatedAt !== null) {
       throw new HttpException('This password reset link has already been used.', HttpStatus.BAD_REQUEST);
     }
 
@@ -140,14 +126,14 @@ export class UsersController {
     const minutesInSeconds = minutes * 60;
     const minutesInMilliseconds = minutesInSeconds * 1000;
 
-    const isExpired = (Date.now() - userResetPasswordFoundMapped.createdAt) >= minutesInMilliseconds;
+    const isExpired = (Date.now() - userResetPasswordFound.createdAt) >= minutesInMilliseconds;
 
     if (isExpired === true) {
       throw new HttpException('This password reset link has expired.', HttpStatus.BAD_REQUEST);
     }
 
-    await this.usersService.update({ id: userFoundMapped.id }, { password: userResetPasswordPatchDto.password });
-    await this.usersResetPasswordService.update({ id: userResetPasswordFoundMapped.id }, { updatedAt: Date.now() });
+    await this.usersService.updateUser({ id: userFound.id }, { password: userResetPasswordPatchDto.password });
+    await this.usersResetPasswordService.updateUserResetPassword({ id: userResetPasswordFound.id }, { updatedAt: Date.now() });
 
     return {
       message: 'Your password has been successfully reset.'
@@ -159,37 +145,34 @@ export class UsersController {
   @Get('me')
   public async me(
     @Request() request: any
-  ): Promise<any> {
+  ) {
 
-    const userFound = await this.usersService.findOne({ where: { id: request.user.id } });
-    if (userFound === undefined) {
+    const userFound = await this.usersService.getUser({ where: { userId: request.user.id } });
+    if (userFound === null) {
       throw new HttpException('Your user was not found.', HttpStatus.BAD_REQUEST);
     }
 
-    const userFoundMappedForUser = userMapForUser(userFound);
-
     return {
-      data: userFoundMappedForUser
+      data: userFound
     };
 
   }
 
   @UseGuards(JwtGuard)
   @Patch('change-password')
-  async changePassword(
+  public async changePassword(
     @Request() request: any,
     @Body() userChangePasswordDto: UserChangePasswordDto
   ) {
 
-    const userFound = await this.usersService.findOne({ where: { id: request.user.id } });
-    const userFoundMapped = userMap(userFound);
+    const userFound = await this.usersService.getUserWithPassword({ where: { userId: request.user.id } });
 
-    const isPasswordCurrentCorrect = await compare(userChangePasswordDto.passwordCurrent, userFoundMapped.password);
+    const isPasswordCurrentCorrect = await compare(userChangePasswordDto.passwordCurrent, userFound.password);
     if (isPasswordCurrentCorrect === false) {
       throw new HttpException('The current password entered is incorrect.', HttpStatus.BAD_REQUEST);
     }
 
-    await this.usersService.update({ id: request.user.id }, { password: userChangePasswordDto.passwordNew });
+    await this.usersService.updateUser({ id: request.user.id }, { password: userChangePasswordDto.passwordNew });
 
     return {
       message: 'Your password has been successfully changed.'

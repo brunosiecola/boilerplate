@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { OnDestroyClass } from '@bruno-bombonate/ngx-classes';
 import { HttpService } from 'projects/apps/boilerplate-user/src/app/utils/services/http/http.service';
-import { AuthenticationService } from '@bruno-bombonate/ngx-authentication';
 import { ToastService } from '@bruno-bombonate/ngx-toast';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
@@ -17,7 +16,6 @@ export class SignUpComponent extends OnDestroyClass {
 
   constructor(
     private readonly httpService: HttpService,
-    private readonly authenticationService: AuthenticationService,
     private readonly toastService: ToastService,
     private readonly router: Router
   ) {
@@ -31,7 +29,6 @@ export class SignUpComponent extends OnDestroyClass {
         .pipe(takeUntil(this.onDestroy))
         .subscribe({
           next: (response: any) => {
-            this.authenticationService.setAuthentication(response.data, true);
             this.toastService.success(response.message);
             this.router.navigate(['/sign-in']);
           },

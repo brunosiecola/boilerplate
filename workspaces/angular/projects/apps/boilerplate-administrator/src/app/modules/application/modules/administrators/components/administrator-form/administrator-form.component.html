@@ -1,10 +1,22 @@
 <form [formGroup]="form" (ngSubmit)="handleNgSubmit()">
-  <p *ngIf="formData !== undefined" class="view-label">
-    ID
-    <span>
-      {{ formData.id }}
-    </span>
-  </p>
+  <div class="row">
+    <div class="col-lg-6">
+      <p *ngIf="formData !== undefined" class="view-label">
+        ID
+        <span>
+          {{ formData.id }}
+        </span>
+      </p>
+    </div>
+    <div class="col-lg-6">
+      <p *ngIf="formData !== undefined" class="view-label">
+        Registration date
+        <span>
+          {{ formData.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}
+        </span>
+      </p>
+    </div>
+  </div>
   <div class="mb-3">
     <label
       for="name"
@@ -94,12 +106,6 @@
       [controlErrors]="form.controls['status'].errors">
     </control-error>
   </div>
-  <p *ngIf="formData !== undefined" class="view-label">
-    Registration date
-    <span>
-      {{ formData.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}
-    </span>
-  </p>
   <button
     type="submit"
     class="button">

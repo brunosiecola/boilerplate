@@ -12,7 +12,7 @@
   </div>
 </div>
 <div class="card mb-3">
-  <app-profile-view
+  <app-profile-view *ngIf="profile !== undefined"
     [profile]="profile">
   </app-profile-view>
 </div>

@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { ColumnDecimalTransformer } from '@app/boilerplate-database/utils/transformers/column-decimal-transformer.class';
 
 @Entity()
 export class User {
@@ -12,13 +13,13 @@ export class User {
   @Column({ type: 'varchar', length: 100, nullable: false, unique: true })
   email: string;
 
-  @Column({ type: 'varchar', length: 60, nullable: false })
+  @Column({ type: 'varchar', length: 60, nullable: false, select: false })
   password: string;
 
   @Column({ type: 'boolean', nullable: false })
   status: boolean;
 
-  @Column({ type: 'bigint', nullable: false })
+  @Column({ type: 'bigint', nullable: false, transformer: new ColumnDecimalTransformer() })
   createdAt: number;
 
 }

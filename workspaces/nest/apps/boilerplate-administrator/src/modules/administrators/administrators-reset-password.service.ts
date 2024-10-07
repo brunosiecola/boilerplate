@@ -1,42 +1,45 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AdministratorResetPassword } from '@app/boilerplate-database/modules/administrators/entities/administrator-reset-password.entity';
-import { Repository, InsertResult, UpdateResult } from 'typeorm';
+import { Repository, SelectQueryBuilder, InsertResult, FindOptionsWhere, UpdateResult } from 'typeorm';
+import { Administrator } from '@app/boilerplate-database/modules/administrators/entities/administrator.entity';
 
 @Injectable()
 export class AdministratorsResetPasswordService {
 
-  private readonly QUERY_SELECT: string =
-    `
-      administrator_reset_password.id AS administrator_reset_password_id,
-      administrator_reset_password.administratorId AS administrator_reset_password_administratorId,
-      administrator_reset_password.token AS administrator_reset_password_token,
-      administrator_reset_password.createdAt AS administrator_reset_password_createdAt,
-      administrator_reset_password.updatedAt AS administrator_reset_password_updatedAt
-    `;
-
   constructor(
     @InjectRepository(AdministratorResetPassword)
-    private readonly administratorResetPasswordRepository: Repository<AdministratorResetPassword>
+    private readonly repository: Repository<AdministratorResetPassword>
   ) { }
 
-  public async create(administratorResetPassword: Partial<AdministratorResetPassword>): Promise<InsertResult> {
-    return await this.administratorResetPasswordRepository.insert(administratorResetPassword);
-  }
+  private administratorResetPasswordQuery(options?: { where?: any }): SelectQueryBuilder<any> {
 
-  public async update(where: any, administratorResetPassword: Partial<AdministratorResetPassword>): Promise<UpdateResult> {
-    return await this.administratorResetPasswordRepository.update(where, administratorResetPassword);
-  }
-
-  public async findOne(options: any): Promise<any> {
-    const query = this.administratorResetPasswordRepository
+    const query = this.repository
       .createQueryBuilder('administrator_reset_password')
-      .select(this.QUERY_SELECT);
-    if (options?.where) {
-      query.where(options.where);
+      .innerJoinAndMapOne('administrator_reset_password.administrator', Administrator, 'administrator_reset_password_administrator', 'administrator_reset_password_administrator.id = administrator_reset_password.administratorId');
+
+    if (options?.where?.administratorResetPasswordId) {
+      query.andWhere('administrator_reset_password.id = :administratorResetPasswordId', { administratorResetPasswordId: options.where.administratorResetPasswordId });
     }
-    const administrator = await query.getRawOne();
-    return administrator;
+    if (options?.where?.administratorResetPasswordToken) {
+      query.andWhere('administrator_reset_password.token = :administratorResetPasswordToken', { administratorResetPasswordToken: options.where.administratorResetPasswordToken });
+    }
+
+    return query;
+
+  }
+
+  public createAdministratorResetPassword(administratorResetPassword: Partial<AdministratorResetPassword>): Promise<InsertResult> {
+    return this.repository.insert(administratorResetPassword);
+  }
+
+  public updateAdministratorResetPassword(where: FindOptionsWhere<AdministratorResetPassword>, administratorResetPassword: Partial<AdministratorResetPassword>): Promise<UpdateResult> {
+    return this.repository.update(where, administratorResetPassword);
+  }
+
+  public getAdministratorResetPassword(options?: { where?: any }): Promise<null | any> {
+    const administratorResetPasswordQuery = this.administratorResetPasswordQuery(options)
+    return administratorResetPasswordQuery.getOne();
   }
 
 }

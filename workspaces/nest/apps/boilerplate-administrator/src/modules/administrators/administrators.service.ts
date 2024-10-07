@@ -1,71 +1,78 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Administrator } from '@app/boilerplate-database/modules/administrators/entities/administrator.entity';
-import { Repository, InsertResult, UpdateResult, SelectQueryBuilder } from 'typeorm';
+import { Repository, SelectQueryBuilder, InsertResult, FindOptionsWhere, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class AdministratorsService {
 
-  private readonly QUERY_SELECT: string =
-    `
-      administrator.id AS administrator_id,
-      administrator.name AS administrator_name,
-      administrator.email AS administrator_email,
-      administrator.password AS administrator_password,
-      administrator.status AS administrator_status,
-      administrator.createdAt AS administrator_createdAt
-    `;
-
   constructor(
     @InjectRepository(Administrator)
-    private readonly administratorRepository: Repository<Administrator>
+    private readonly repository: Repository<Administrator>
   ) { }
 
-  public async create(administrator: Partial<Administrator>): Promise<InsertResult> {
-    return await this.administratorRepository.insert(administrator);
-  }
+  private administratorQuery(options?: { where?: any, orderBy?: any, offset?: number, limit?: number }): SelectQueryBuilder<any> {
 
-  public async update(where: any, administrator: Partial<Administrator>): Promise<UpdateResult> {
-    return await this.administratorRepository.update(where, administrator);
-  }
+    const query = this.repository
+      .createQueryBuilder('administrator');
 
-  public async findAll(options?: any): Promise<SelectQueryBuilder<Administrator>> {
-    const query = this.administratorRepository
-      .createQueryBuilder('administrator')
-      .select(this.QUERY_SELECT);
-    if (options?.where?.id) {
-      query.andWhere('administrator.id = :id', { id: options.where.id });
+    if (options?.where?.administratorId) {
+      query.andWhere('administrator.id = :administratorId', { administratorId: options.where.administratorId });
     }
-    if (options?.where?.name) {
-      query.andWhere('administrator.name LIKE :name', { name: `%${options.where.name}%` });
+    if (options?.where?.administratorName) {
+      query.andWhere('administrator.name LIKE :administratorName', { administratorName: `%${options.where.administratorName}%` });
     }
-    if (options?.where?.email) {
-      query.andWhere('administrator.email LIKE :email', { email: `%${options.where.email}%` });
+    if (options?.where?.administratorEmail) {
+      query.andWhere('administrator.email LIKE :administratorEmail', { administratorEmail: `%${options.where.administratorEmail}%` });
     }
-    if (options?.where?.status) {
-      query.andWhere('administrator.status = :status', { status: options.where.status });
+    if (options?.where?.administratorStatus) {
+      query.andWhere('administrator.status = :administratorStatus', { administratorStatus: options.where.administratorStatus });
     }
-    if (options?.orderBy) {
-      query.orderBy(options.orderBy);
+
+    if (options?.orderBy?.administratorId) {
+      query.orderBy('administrator.id', options.orderBy.administratorId);
+    } else if (options?.orderBy?.administratorName) {
+      query.orderBy('administrator.name', options.orderBy.administratorName);
+    } else if (options?.orderBy?.administratorEmail) {
+      query.orderBy('administrator.email', options.orderBy.administratorEmail);
+    } else if (options?.orderBy?.administratorStatus) {
+      query.orderBy('administrator.status', options.orderBy.administratorStatus);
     }
+    
     if (options?.offset) {
       query.offset(options.offset);
     }
+
     if (options?.limit) {
       query.limit(options.limit);
     }
+
     return query;
+
   }
 
-  public async findOne(options: any): Promise<any> {
-    const query = this.administratorRepository
-      .createQueryBuilder('administrator')
-      .select(this.QUERY_SELECT);
-    if (options?.where) {
-      query.where(options.where);
-    }
-    const administrator = await query.getRawOne();
-    return administrator;
+  public createAdministrator(administrator: Partial<Administrator>): Promise<InsertResult> {
+    return this.repository.insert(administrator);
+  }
+
+  public updateAdministrator(where: FindOptionsWhere<Administrator>, administrator: Partial<Administrator>): Promise<UpdateResult> {
+    return this.repository.update(where, administrator);
+  }
+
+  public getAdministrators(options?: { where?: any, orderBy?: any, offset?: number, limit?: number }): SelectQueryBuilder<any[]> {
+    const administratorsQuery = this.administratorQuery(options);
+    return administratorsQuery;
+  }
+
+  public getAdministrator(options?: { where?: any }): Promise<null | any> {
+    const administratorQuery = this.administratorQuery(options);
+    return administratorQuery.getOne();
+  }
+
+  public getAdministratorWithPassword(options?: { where?: any }): Promise<null | any> {
+    const administratorQuery = this.administratorQuery(options)
+      .addSelect('administrator.password', 'administrator_password');
+    return administratorQuery.getOne();
   }
 
 }

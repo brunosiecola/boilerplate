@@ -13,10 +13,12 @@ import { takeUntil } from 'rxjs';
 export class AdministratorsListComponent extends ListContainerClass {
 
   public override listSearchParamsList = [
-    { name: 'id', type: SearchParamType.QueryParam, valueType: SearchParamValueType.Number },
-    { name: 'name', type: SearchParamType.QueryParam, valueType: SearchParamValueType.String },
-    { name: 'email', type: SearchParamType.QueryParam, valueType: SearchParamValueType.String },
-    { name: 'status', type: SearchParamType.QueryParam, valueType: SearchParamValueType.Boolean }
+    { name: 'administratorId', type: SearchParamType.QueryParam, valueType: SearchParamValueType.Number },
+    { name: 'administratorName', type: SearchParamType.QueryParam, valueType: SearchParamValueType.String },
+    { name: 'administratorEmail', type: SearchParamType.QueryParam, valueType: SearchParamValueType.String },
+    { name: 'administratorStatus', type: SearchParamType.QueryParam, valueType: SearchParamValueType.Boolean },
+    { name: 'orderBy', type: SearchParamType.QueryParam, valueType: SearchParamValueType.String },
+    { name: 'orderByDirection', type: SearchParamType.QueryParam, valueType: SearchParamValueType.String }
   ];
 
   constructor(

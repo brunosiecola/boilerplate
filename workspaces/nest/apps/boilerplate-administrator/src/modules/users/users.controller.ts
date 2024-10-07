@@ -1,8 +1,8 @@
 import { ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Query, Param, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Query, Param, HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { StatusPipe } from '../../utils/pipes/status/status.pipe';
-import { userMapForAdministrator } from '@app/boilerplate-database/modules/users/functions/user-map.function';
+import { JwtGuard } from '../../utils/guards/jwt/jwt.guard';
+import { BooleanPipe } from '../../utils/pipes/boolean/boolean.pipe';
 
 @ApiTags('users')
 @Controller('users')
@@ -12,46 +12,53 @@ export class UsersController {
     private readonly usersService: UsersService
   ) { }
 
+  @UseGuards(JwtGuard)
   @Get()
   public async getUsers(
-    @Query('id') id: null | string,
-    @Query('name') name: null | string,
-    @Query('email') email: null | string,
-    @Query('status', StatusPipe) status: null | string,
-    @Query('offset') offset: null | string,
-    @Query('limit') limit: null | string
-  ): Promise<any> {
+    @Query('userId') userId: null | number,
+    @Query('userName') userName: null | string,
+    @Query('userEmail') userEmail: null | string,
+    @Query('userStatus', BooleanPipe) userStatus: null | boolean,
+    @Query('orderBy') orderBy: null | string | any,
+    @Query('orderByDirection') orderByDirection: null | string,
+    @Query('offset') offset: null | number,
+    @Query('limit') limit: null | number
+  ) {
 
-    const where = { id, name, email, status };
+    const orderByValue = orderBy || 'userId';
+    const orderByDirectionValue = orderByDirection || 'ASC';
 
-    const usersFoundQuery = await this.usersService.findAll({ where, orderBy: { 'user.id': 'DESC' }, offset, limit });
-    const usersFound = await usersFoundQuery.getRawMany();
-    const usersFoundMappedForAdministrator = usersFound.map((userFound: any) => userMapForAdministrator(userFound));
+    const where = { userId, userName, userEmail, userStatus };
+    orderBy = { [orderByValue]: orderByDirectionValue };
 
-    const usersFoundCountQuery = await this.usersService.findAll({ where });
+    const usersFoundQuery = this.usersService.getUsers({ where, orderBy, offset, limit });
+    const usersFound = await usersFoundQuery.getMany();
+
+    const usersFoundCountQuery = this.usersService.getUsers({ where });
     const usersFoundCount = await usersFoundCountQuery.getCount();
 
     return {
-      data: usersFoundMappedForAdministrator,
+      orderBy: orderByValue,
+      orderByDirection: orderByDirectionValue,
+      data: usersFound,
       length: usersFoundCount
     };
 
   }
 
+  @UseGuards(JwtGuard)
   @Get(':userId')
   public async getUser(
     @Param('userId') userId: string
-  ): Promise<any> {
+  ) {
 
-    const userFound = await this.usersService.findOne({ where: { id: userId } });
-    if (userFound === undefined) {
+    const userFound = await this.usersService.getUser({ where: { userId: userId } });
+    if (userFound === null) {
       throw new HttpException('This user does not exist.', HttpStatus.BAD_REQUEST);
     }
 
-    const userFoundMappedForAdministrator = userMapForAdministrator(userFound);
-
     return {
-      data: userFoundMappedForAdministrator
+      data: userFound
     };
 
   }
