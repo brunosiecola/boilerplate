@@ -16,6 +16,7 @@ npm install @bruno-bombonate/ngx-toast
 |1.0.0|15.x|
 |2.0.0|16.x|
 |3.0.0|17.x|
+|18.0.0|18.x|
 
 ## Usage
 
@@ -68,9 +69,7 @@ import { ToastService } from '@bruno-bombonate/ngx-toast';
 })
 export class AppComponent implements OnInit {
 
-  constructor(
-    private readonly toastService: ToastService
-  ) { }
+  private readonly toastService = inject(ToastService);
 
   public ngOnInit(): void {
     setTimeout(() => {

@@ -33,8 +33,6 @@ export class AdministratorsController {
     const message = 'Email or password is incorrect.';
 
     const administratorFound = await this.administratorsService.getAdministratorWithPassword({ where: { administratorEmail: administratorSignInDto.email } });
-    console.log('administratorSignInDto', administratorSignInDto);
-    console.log('administratorFound', administratorFound);
     if (administratorFound === null) {
       throw new HttpException(message, HttpStatus.BAD_REQUEST);
     }

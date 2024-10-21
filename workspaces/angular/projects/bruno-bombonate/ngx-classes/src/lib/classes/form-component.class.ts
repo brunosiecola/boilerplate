@@ -1,11 +1,12 @@
 import { Directive, OnChanges, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
-import { OnDestroyClass } from './on-destroy.class';
+import { DestroyRefClass } from './destroy-ref.class';
 import { FormGroup, AbstractControl, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil, distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
 @Directive()
-export abstract class FormComponentClass extends OnDestroyClass implements OnChanges, OnInit {
+export abstract class FormComponentClass extends DestroyRefClass implements OnChanges, OnInit {
 
   @Input()
   public form: FormGroup = new FormGroup({ });
@@ -21,6 +22,9 @@ export abstract class FormComponentClass extends OnDestroyClass implements OnCha
 
   @Output()
   public formChange: EventEmitter<any> = new EventEmitter();
+
+  @Output()
+  public formBack: EventEmitter<any> = new EventEmitter();
 
   @Output()
   public formSubmit: EventEmitter<any> = new EventEmitter();
@@ -44,7 +48,7 @@ export abstract class FormComponentClass extends OnDestroyClass implements OnCha
 
     this.form.valueChanges
       .pipe(
-        takeUntil(this.onDestroy),
+        takeUntilDestroyed(this.destroyRef),
         distinctUntilChanged(),
         debounceTime(500)
       )
@@ -55,7 +59,7 @@ export abstract class FormComponentClass extends OnDestroyClass implements OnCha
 
     if (this.formReset !== undefined) {
       this.formReset
-        .pipe(takeUntil(this.onDestroy))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(() => this.form.reset());
     }
 

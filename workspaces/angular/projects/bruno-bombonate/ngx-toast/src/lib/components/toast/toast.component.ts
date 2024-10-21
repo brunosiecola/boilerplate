@@ -1,23 +1,23 @@
-import { Component, AfterViewInit, ElementRef } from '@angular/core';
-import { Toast } from '../../interfaces/toast.interface';
+import { Component, AfterViewInit, inject, ElementRef } from '@angular/core';
+import { DestroyRefClass } from '@bruno-bombonate/ngx-classes';
 import { ToastService } from '../../services/toast.service';
+import { Toast } from '../../interfaces/toast.interface';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import gsap from 'gsap';
 
 @Component({
   selector: 'toast',
   templateUrl: './toast.component.html'
 })
-export class ToastComponent implements AfterViewInit {
+export class ToastComponent extends DestroyRefClass implements AfterViewInit {
 
-  public toastList: Toast[] = [];
+  private readonly toastService = inject(ToastService);
+  private readonly elementRef = inject(ElementRef);
   
   private toastAnimationInProgress: boolean = false;
   private toastAnimationTimeout: undefined | any = undefined;
 
-  constructor(
-    private readonly toastService: ToastService,
-    private readonly elementRef: ElementRef
-  ) { }
+  public toastList: Toast[] = [];
 
   private toastTimelineShow(): void {
     if (this.toastAnimationInProgress === false) {
@@ -58,6 +58,7 @@ export class ToastComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.toastService.send$
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (toast: Toast) => {
           this.toastList.push(toast);

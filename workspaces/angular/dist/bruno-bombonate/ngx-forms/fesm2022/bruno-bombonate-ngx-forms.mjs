@@ -1,12 +1,12 @@
 import * as i0 from '@angular/core';
-import { Component, ChangeDetectionStrategy, Injectable, Optional, Inject, Input, NgModule } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Injectable, Optional, Inject, inject, Input, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 class ControlTipComponent {
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: ControlTipComponent, deps: [], target: i0.ɵɵFactoryTarget.Component }); }
-    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "17.0.4", type: ControlTipComponent, selector: "control-tip", ngImport: i0, template: "<ng-content>\r\n</ng-content>\r\n", changeDetection: i0.ChangeDetectionStrategy.OnPush }); }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: ControlTipComponent, deps: [], target: i0.ɵɵFactoryTarget.Component }); }
+    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "18.2.7", type: ControlTipComponent, selector: "control-tip", ngImport: i0, template: "<ng-content>\r\n</ng-content>\r\n", changeDetection: i0.ChangeDetectionStrategy.OnPush }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: ControlTipComponent, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: ControlTipComponent, decorators: [{
             type: Component,
             args: [{ selector: 'control-tip', changeDetection: ChangeDetectionStrategy.OnPush, template: "<ng-content>\r\n</ng-content>\r\n" }]
         }] });
@@ -32,10 +32,10 @@ class FormsService {
             };
         }
     }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: FormsService, deps: [{ token: 'controlErrorsCustom', optional: true }], target: i0.ɵɵFactoryTarget.Injectable }); }
-    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: FormsService, providedIn: 'root' }); }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: FormsService, deps: [{ token: 'controlErrorsCustom', optional: true }], target: i0.ɵɵFactoryTarget.Injectable }); }
+    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: FormsService, providedIn: 'root' }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: FormsService, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: FormsService, decorators: [{
             type: Injectable,
             args: [{
                     providedIn: 'root'
@@ -48,6 +48,10 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.4", ngImpor
                 }] }] });
 
 class ControlErrorComponent {
+    constructor() {
+        this.formsService = inject(FormsService);
+        this.controlErrors = null;
+    }
     get controlErrorMessage() {
         const controlErrors = this.controlErrors;
         if (controlErrors !== null) {
@@ -61,17 +65,13 @@ class ControlErrorComponent {
         }
         return undefined;
     }
-    constructor(formsService) {
-        this.formsService = formsService;
-        this.controlErrors = null;
-    }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: ControlErrorComponent, deps: [{ token: FormsService }], target: i0.ɵɵFactoryTarget.Component }); }
-    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "17.0.4", type: ControlErrorComponent, selector: "control-error", inputs: { controlErrors: "controlErrors" }, ngImport: i0, template: "{{ controlErrorMessage }}\r\n", changeDetection: i0.ChangeDetectionStrategy.OnPush }); }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: ControlErrorComponent, deps: [], target: i0.ɵɵFactoryTarget.Component }); }
+    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "18.2.7", type: ControlErrorComponent, selector: "control-error", inputs: { controlErrors: "controlErrors" }, ngImport: i0, template: "{{ controlErrorMessage }}\r\n", changeDetection: i0.ChangeDetectionStrategy.OnPush }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: ControlErrorComponent, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: ControlErrorComponent, decorators: [{
             type: Component,
             args: [{ selector: 'control-error', changeDetection: ChangeDetectionStrategy.OnPush, template: "{{ controlErrorMessage }}\r\n" }]
-        }], ctorParameters: () => [{ type: FormsService }], propDecorators: { controlErrors: [{
+        }], propDecorators: { controlErrors: [{
                 type: Input
             }] } });
 
@@ -84,17 +84,17 @@ class FormsModule {
             ]
         };
     }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: FormsModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
-    static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "17.0.4", ngImport: i0, type: FormsModule, declarations: [
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: FormsModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
+    static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "18.2.7", ngImport: i0, type: FormsModule, declarations: [
             // components
             ControlTipComponent,
             ControlErrorComponent], imports: [CommonModule], exports: [
             // components
             ControlTipComponent,
             ControlErrorComponent] }); }
-    static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: FormsModule, imports: [CommonModule] }); }
+    static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: FormsModule, imports: [CommonModule] }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: FormsModule, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: FormsModule, decorators: [{
             type: NgModule,
             args: [{
                     declarations: [

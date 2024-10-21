@@ -1,22 +1,18 @@
-import { Directive, AfterViewInit, ViewChild, ElementRef, Inject, PLATFORM_ID } from '@angular/core';
-import { OnDestroyClass } from '@bruno-bombonate/ngx-classes';
+import { Directive, AfterViewInit, inject, ViewChild, ElementRef, PLATFORM_ID } from '@angular/core';
+import { DestroyRefClass } from '@bruno-bombonate/ngx-classes';
 import { isPlatformBrowser } from '@angular/common';
 import gsap from 'gsap';
-import { fromEvent, takeUntil } from 'rxjs';
+import { fromEvent } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive()
-export class NavClass extends OnDestroyClass implements AfterViewInit {
+export class NavClass extends DestroyRefClass implements AfterViewInit {
+
+  private readonly platformId = inject(PLATFORM_ID);
 
   @ViewChild('nav')
   private navElementRef: undefined | ElementRef<HTMLElement> = undefined;
   private navTimeline: any;
-
-  constructor(
-    @Inject(PLATFORM_ID)
-    protected readonly platformId: any
-  ) {
-    super();
-  }
 
   protected initNav(): void {
     if (isPlatformBrowser(this.platformId) === true) {
@@ -33,7 +29,7 @@ export class NavClass extends OnDestroyClass implements AfterViewInit {
           .set(navElementRef, { display: 'flex' })
           .to(navElementRef, { duration: 0.5, opacity: 1 });
         fromEvent(window, 'resize')
-          .pipe(takeUntil(this.onDestroy))
+          .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe(() => this.navClose());
       }
     }

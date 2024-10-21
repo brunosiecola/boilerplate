@@ -1,8 +1,8 @@
-import { OnDestroyClass } from './on-destroy.class';
-import { SearchParam } from '../interfaces/search-param.interface';
+import { DestroyRefClass } from './destroy-ref.class';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SearchParam } from '../interfaces/search-param.interface';
 import * as i0 from "@angular/core";
-export declare class ListContainerClass extends OnDestroyClass {
+export declare class ListContainerClass extends DestroyRefClass {
     protected readonly activatedRoute: ActivatedRoute;
     protected readonly router: Router;
     listSearchParamsList: SearchParam[];
@@ -11,7 +11,6 @@ export declare class ListContainerClass extends OnDestroyClass {
     listLength: number;
     listLimit: number;
     listLoading: boolean;
-    constructor(activatedRoute: ActivatedRoute, router: Router);
     protected setListSearchParams(): void;
     protected getHttpParamsString(): string;
     protected getList(): void;

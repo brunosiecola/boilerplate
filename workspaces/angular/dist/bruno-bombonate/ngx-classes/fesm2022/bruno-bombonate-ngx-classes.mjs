@@ -1,24 +1,16 @@
 import * as i0 from '@angular/core';
-import { Directive, Input, EventEmitter, Output } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { inject, DestroyRef, Directive, Input, EventEmitter, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
-import * as i1 from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup } from '@angular/forms';
-import { takeUntil as takeUntil$1, distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
-class OnDestroyClass {
+class DestroyRefClass {
     constructor() {
-        this.onDestroy = new Subject();
+        this.destroyRef = inject(DestroyRef);
     }
-    ngOnDestroy() {
-        this.onDestroy.next();
-    }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: OnDestroyClass, deps: [], target: i0.ɵɵFactoryTarget.Directive }); }
-    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "17.0.4", type: OnDestroyClass, ngImport: i0 }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: OnDestroyClass, decorators: [{
-            type: Directive
-        }] });
 
 var SearchParamType;
 (function (SearchParamType) {
@@ -95,11 +87,11 @@ const transform = (searchParam, searchParamValue) => {
     return null;
 };
 
-class ListContainerClass extends OnDestroyClass {
-    constructor(activatedRoute, router) {
-        super();
-        this.activatedRoute = activatedRoute;
-        this.router = router;
+class ListContainerClass extends DestroyRefClass {
+    constructor() {
+        super(...arguments);
+        this.activatedRoute = inject(ActivatedRoute);
+        this.router = inject(Router);
         this.listSearchParamsList = [];
         this.listSearchParams = {};
         this.list = [];
@@ -146,7 +138,7 @@ class ListContainerClass extends OnDestroyClass {
     ngOnInit() {
         this.setListSearchParams();
         this.activatedRoute.queryParams
-            .pipe(takeUntil(this.onDestroy))
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => this.getList());
     }
     handleListSearchFormChange(value) {
@@ -175,27 +167,27 @@ class ListContainerClass extends OnDestroyClass {
         });
         this.router.navigate(['.'], { relativeTo: this.activatedRoute, queryParams: listSearchParamsExcludingTypeParam });
     }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: ListContainerClass, deps: [{ token: i1.ActivatedRoute }, { token: i1.Router }], target: i0.ɵɵFactoryTarget.Directive }); }
-    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "17.0.4", type: ListContainerClass, usesInheritance: true, ngImport: i0 }); }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: ListContainerClass, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "18.2.7", type: ListContainerClass, usesInheritance: true, ngImport: i0 }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: ListContainerClass, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: ListContainerClass, decorators: [{
             type: Directive
-        }], ctorParameters: () => [{ type: i1.ActivatedRoute }, { type: i1.Router }] });
+        }] });
 
 class ListComponentClass {
     constructor() {
         this.list = [];
     }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: ListComponentClass, deps: [], target: i0.ɵɵFactoryTarget.Directive }); }
-    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "17.0.4", type: ListComponentClass, inputs: { list: "list" }, ngImport: i0 }); }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: ListComponentClass, deps: [], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "18.2.7", type: ListComponentClass, inputs: { list: "list" }, ngImport: i0 }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: ListComponentClass, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: ListComponentClass, decorators: [{
             type: Directive
         }], propDecorators: { list: [{
                 type: Input
             }] } });
 
-class FormComponentClass extends OnDestroyClass {
+class FormComponentClass extends DestroyRefClass {
     constructor() {
         super(...arguments);
         this.form = new FormGroup({});
@@ -203,6 +195,7 @@ class FormComponentClass extends OnDestroyClass {
         this.formLoading = false;
         this.formReset = undefined;
         this.formChange = new EventEmitter();
+        this.formBack = new EventEmitter();
         this.formSubmit = new EventEmitter();
     }
     mapInputValue(value) {
@@ -219,14 +212,14 @@ class FormComponentClass extends OnDestroyClass {
     }
     ngOnInit() {
         this.form.valueChanges
-            .pipe(takeUntil$1(this.onDestroy), distinctUntilChanged(), debounceTime(500))
+            .pipe(takeUntilDestroyed(this.destroyRef), distinctUntilChanged(), debounceTime(500))
             .subscribe(() => {
             const valueMapped = this.mapOutputValue(this.form.value);
             this.formChange.emit(valueMapped);
         });
         if (this.formReset !== undefined) {
             this.formReset
-                .pipe(takeUntil$1(this.onDestroy))
+                .pipe(takeUntilDestroyed(this.destroyRef))
                 .subscribe(() => this.form.reset());
         }
     }
@@ -244,10 +237,10 @@ class FormComponentClass extends OnDestroyClass {
             this.formSubmit.emit(valueMapped);
         }
     }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: FormComponentClass, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
-    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "17.0.4", type: FormComponentClass, inputs: { form: "form", formData: "formData", formLoading: "formLoading", formReset: "formReset" }, outputs: { formChange: "formChange", formSubmit: "formSubmit" }, usesInheritance: true, usesOnChanges: true, ngImport: i0 }); }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: FormComponentClass, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "18.2.7", type: FormComponentClass, inputs: { form: "form", formData: "formData", formLoading: "formLoading", formReset: "formReset" }, outputs: { formChange: "formChange", formBack: "formBack", formSubmit: "formSubmit" }, usesInheritance: true, usesOnChanges: true, ngImport: i0 }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: FormComponentClass, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: FormComponentClass, decorators: [{
             type: Directive
         }], propDecorators: { form: [{
                 type: Input
@@ -258,6 +251,8 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.4", ngImpor
             }], formReset: [{
                 type: Input
             }], formChange: [{
+                type: Output
+            }], formBack: [{
                 type: Output
             }], formSubmit: [{
                 type: Output
@@ -272,5 +267,5 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.4", ngImpor
  * Generated bundle index. Do not edit.
  */
 
-export { FormComponentClass, ListComponentClass, ListContainerClass, OnDestroyClass, SearchParamType, SearchParamValueType, transform, transformBoolean, transformNumber, transformString };
+export { DestroyRefClass, FormComponentClass, ListComponentClass, ListContainerClass, SearchParamType, SearchParamValueType, transform, transformBoolean, transformNumber, transformString };
 //# sourceMappingURL=bruno-bombonate-ngx-classes.mjs.map

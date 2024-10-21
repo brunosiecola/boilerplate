@@ -16,6 +16,7 @@ npm install @bruno-bombonate/ngx-classes
 |1.2.0|15.x|
 |2.0.0|16.x|
 |3.0.0|17.x|
+|18.0.0|18.x|
 
 ## Usage
 
@@ -24,11 +25,10 @@ npm install @bruno-bombonate/ngx-classes
 List containers are responsible for fetching data from the server. Data presentation must be made at [child component](#listcomponentclass).
 
 ```typescript
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ListContainerClass, SearchParamType, SearchParamValueType } from '@bruno-bombonate/ngx-classes';
-import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { takeUntil } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-users-list',
@@ -37,24 +37,18 @@ import { takeUntil } from 'rxjs';
 })
 export class UsersListComponent extends ListContainerClass implements OnInit {
 
+  private readonly httpClient = inject(HttpClient);
+
   public override listSearchParamsList = [
     { name: 'id', type: SearchParamType.QueryParam, valueType: SearchParamValueType.Number },
     { name: 'name', type: SearchParamType.QueryParam, valueType: SearchParamValueType.String },
     { name: 'email', type: SearchParamType.QueryParam, valueType: SearchParamValueType.String }
   ];
 
-  constructor(
-    activatedRoute: ActivatedRoute,
-    router: Router,
-    private readonly httpClient: HttpClient
-  ) {
-    super(activatedRoute, router);
-  }
-
   public override ngOnInit(): void {
     this.setListSearchParams();
     this.activatedRoute.queryParams
-      .pipe(takeUntil(this.onDestroy))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.getList());
   }
 
@@ -63,7 +57,7 @@ export class UsersListComponent extends ListContainerClass implements OnInit {
       this.listLoading = true;
       const httpParamsString = this.getHttpParamsString();
       this.httpClient.get(`users?${httpParamsString}`)
-        .pipe(takeUntil(this.onDestroy))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (response: any) => {
             this.list = response.data;
@@ -99,7 +93,7 @@ export class UserListComponent extends ListComponentClass { }
 
 ### FormComponentClass
 
-Form components are responsible for manipulating data and passing it on. HTTP requests must be made at [parent component](#ondestroyclass).
+Form components are responsible for manipulating data and passing it on. HTTP requests must be made at [parent component](#destroyrefclass).
 
 ```typescript
 import { Component, ChangeDetectionStrategy } from '@angular/core';
@@ -122,36 +116,32 @@ export class UserFormComponent extends FormComponentClass {
 }
 ```
 
-### OnDestroyClass
+### DestroyRefClass
 
-This is a wildcard class that you must extend ever where is a subscription, making it easier to unsubscribe using takeUntil.
+This is a wildcard class that you must extend ever where is a subscription, making it easier to unsubscribe using takeUntilDestroyed.
 
 ```typescript
-import { Component } from '@angular/core';
-import { OnDestroyClass } from '@bruno-bombonate/ngx-classes';
+import { Component, inject } from '@angular/core';
+import { DestroyRefClass } from '@bruno-bombonate/ngx-classes';
 import { HttpClient } from '@angular/common/http';
-import { takeUntil } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-users-add',
   templateUrl: './users-add.component.html',
   styleUrls: ['./users-add.component.sass']
 })
-export class UsersAddComponent extends OnDestroyClass {
+export class UsersAddComponent extends DestroyRefClass {
+
+  private readonly httpClient = inject(HttpClient);
 
   public formLoading: boolean = false;
-
-  constructor(
-    private readonly httpClient: HttpClient
-  ) {
-    super();
-  }
 
   public handleFormSubmit(value: any): void {
     if (this.formLoading === false) {
       this.formLoading = true;
       this.httpClient.post('users', value)
-        .pipe(takeUntil(this.onDestroy))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (response: any) => {
           },

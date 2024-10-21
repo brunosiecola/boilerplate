@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { filter, map, mergeMap } from 'rxjs/operators';
@@ -8,14 +8,12 @@ import { filter, map, mergeMap } from 'rxjs/operators';
 })
 export class SeoService {
 
-  public appName: string = '';
+  private readonly title = inject(Title);
+  private readonly meta = inject(Meta);
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
 
-  constructor(
-    private readonly title: Title,
-    private readonly meta: Meta,
-    private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute
-  ) { }
+  public appName: string = '';
 
   public setTitle(title: string): void {
     this.title.setTitle(title);

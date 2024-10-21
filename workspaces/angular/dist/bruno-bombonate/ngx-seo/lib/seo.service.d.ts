@@ -1,5 +1,3 @@
-import { Title, Meta } from '@angular/platform-browser';
-import { Router, ActivatedRoute } from '@angular/router';
 import * as i0 from "@angular/core";
 export declare class SeoService {
     private readonly title;
@@ -7,7 +5,6 @@ export declare class SeoService {
     private readonly router;
     private readonly activatedRoute;
     appName: string;
-    constructor(title: Title, meta: Meta, router: Router, activatedRoute: ActivatedRoute);
     setTitle(title: string): void;
     setMeta(meta: any): void;
     private listenForRouteChanges;

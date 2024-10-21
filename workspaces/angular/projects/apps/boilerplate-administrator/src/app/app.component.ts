@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SeoService } from '@bruno-bombonate/ngx-seo';
 
 @Component({
@@ -8,9 +8,7 @@ import { SeoService } from '@bruno-bombonate/ngx-seo';
 })
 export class AppComponent {
 
-  constructor(
-    private readonly seoService: SeoService
-  ) { }
+  private readonly seoService = inject(SeoService);
 
   public ngOnInit(): void {
     this.seoService.init('Boilerplate Administrator');

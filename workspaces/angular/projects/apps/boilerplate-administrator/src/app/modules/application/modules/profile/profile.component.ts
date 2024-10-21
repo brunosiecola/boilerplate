@@ -1,36 +1,32 @@
-import { Component } from '@angular/core';
-import { OnDestroyClass } from '@bruno-bombonate/ngx-classes';
+import { Component, inject } from '@angular/core';
+import { DestroyRefClass } from '@bruno-bombonate/ngx-classes';
 import { UserService } from 'utils/services/user/user.service';
 import { HttpService } from 'projects/apps/boilerplate-administrator/src/app/utils/services/http/http.service';
 import { ToastService } from '@bruno-bombonate/ngx-toast';
 import { ApplicationComponent } from '../../application.component';
 import { Subject } from 'rxjs/internal/Subject';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.sass']
 })
-export class ProfileComponent extends OnDestroyClass {
+export class ProfileComponent extends DestroyRefClass {
+
+  private readonly userService = inject(UserService);
+  private readonly httpService = inject(HttpService);
+  private readonly toastService = inject(ToastService);
+  public readonly applicationComponent = inject(ApplicationComponent);
 
   public profile: undefined | any = undefined;
 
   public formLoading: boolean = false;
   public formReset: Subject<void> = new Subject();
 
-  constructor(
-    private readonly userService: UserService,
-    private readonly httpService: HttpService,
-    private readonly toastService: ToastService,
-    public readonly applicationComponent: ApplicationComponent
-  ) {
-    super();
-  }
-
   public ngOnInit(): void {
     this.userService.user$
-      .pipe(takeUntil(this.onDestroy))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (user) => {
           this.profile = user;
@@ -42,7 +38,7 @@ export class ProfileComponent extends OnDestroyClass {
     if (this.formLoading === false) {
       this.formLoading = true;
       this.httpService.patch('administrators/change-password', value)
-        .pipe(takeUntil(this.onDestroy))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (response: any) => {
             this.toastService.success(response.message);

@@ -1,4 +1,4 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
@@ -6,10 +6,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class AuthenticationService {
 
-  constructor(
-    @Inject(PLATFORM_ID)
-    private readonly platformId: any
-  ) { }
+  private readonly platformId = inject(PLATFORM_ID);
 
   public setAuthentication(authentication: any, rememberMe: boolean): void {
     if (isPlatformBrowser(this.platformId)) {

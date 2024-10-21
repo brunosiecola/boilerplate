@@ -1,42 +1,42 @@
-import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NavClass } from 'utils/classes/nav.class';
 import { HttpService } from 'projects/apps/boilerplate-user/src/app/utils/services/http/http.service';
 import { UserService } from 'utils/services/user/user.service';
 import { AuthenticationService } from '@bruno-bombonate/ngx-authentication';
 import { Router } from '@angular/router';
 import { ToastService } from '@bruno-bombonate/ngx-toast';
-import { takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-application',
   templateUrl: './application.component.html',
   styleUrls: ['./application.component.sass']
 })
-export class ApplicationComponent extends NavClass implements OnInit, OnDestroy {
+export class ApplicationComponent extends NavClass implements OnInit {
+
+  private readonly httpService = inject(HttpService);
+  private readonly userService = inject(UserService);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
+  private readonly toastService = inject(ToastService);
 
   public user: undefined | any = undefined;
 
-  constructor(
-    @Inject(PLATFORM_ID)
-    platformId: any,
-    private readonly httpService: HttpService,
-    private readonly userService: UserService,
-    private readonly authenticationService: AuthenticationService,
-    private readonly router: Router,
-    private readonly toastService: ToastService
-  ) {
-    super(platformId);
-  }
+  public userSignOut = new Subject<void>();
 
   public ngOnInit(): void {
     this.userService.user$
-      .pipe(takeUntil(this.onDestroy))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        takeUntil(this.userSignOut)
+      )
       .subscribe((user: undefined | any) => {
         if (user !== undefined) {
           this.user = user;
         } else {
           this.httpService.get('users/me')
-            .pipe(takeUntil(this.onDestroy))
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
               next: (response: any) => {
                 this.userService.user = response.data;
@@ -51,7 +51,7 @@ export class ApplicationComponent extends NavClass implements OnInit, OnDestroy 
   }
 
   public handleSignOut(): void {
-    this.onDestroy.next();
+    this.userSignOut.next();
     this.authenticationService.unsetAuthentication();
     this.userService.user = undefined;
     this.toastService.success('You signed out successfully.');

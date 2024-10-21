@@ -1,14 +1,13 @@
-import { AfterViewInit, ElementRef } from '@angular/core';
+import { AfterViewInit } from '@angular/core';
+import { DestroyRefClass } from '@bruno-bombonate/ngx-classes';
 import { Toast } from '../../interfaces/toast.interface';
-import { ToastService } from '../../services/toast.service';
 import * as i0 from "@angular/core";
-export declare class ToastComponent implements AfterViewInit {
+export declare class ToastComponent extends DestroyRefClass implements AfterViewInit {
     private readonly toastService;
     private readonly elementRef;
-    toastList: Toast[];
     private toastAnimationInProgress;
     private toastAnimationTimeout;
-    constructor(toastService: ToastService, elementRef: ElementRef);
+    toastList: Toast[];
     private toastTimelineShow;
     private toastTimelineHide;
     ngAfterViewInit(): void;

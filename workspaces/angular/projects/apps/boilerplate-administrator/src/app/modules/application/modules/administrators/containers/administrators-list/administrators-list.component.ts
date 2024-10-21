@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ListContainerClass, SearchParamType, SearchParamValueType } from '@bruno-bombonate/ngx-classes';
-import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from 'projects/apps/boilerplate-administrator/src/app/utils/services/http/http.service';
 import { ToastService } from '@bruno-bombonate/ngx-toast';
-import { takeUntil } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-administrators-list',
@@ -11,6 +10,9 @@ import { takeUntil } from 'rxjs';
   styleUrls: ['./administrators-list.component.sass']
 })
 export class AdministratorsListComponent extends ListContainerClass {
+
+  private readonly httpService = inject(HttpService);
+  private readonly toastService = inject(ToastService);
 
   public override listSearchParamsList = [
     { name: 'administratorId', type: SearchParamType.QueryParam, valueType: SearchParamValueType.Number },
@@ -21,21 +23,12 @@ export class AdministratorsListComponent extends ListContainerClass {
     { name: 'orderByDirection', type: SearchParamType.QueryParam, valueType: SearchParamValueType.String }
   ];
 
-  constructor(
-    activatedRoute: ActivatedRoute,
-    router: Router,
-    private readonly httpService: HttpService,
-    private readonly toastService: ToastService
-  ) {
-    super(activatedRoute, router);
-  }
-
   protected override getList(): void {
     if (this.listLoading === false) {
       this.listLoading = true;
       const httpParamsString = this.getHttpParamsString();
       this.httpService.get(`administrators?${httpParamsString}`)
-        .pipe(takeUntil(this.onDestroy))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (response: any) => {
             this.list = response.data;

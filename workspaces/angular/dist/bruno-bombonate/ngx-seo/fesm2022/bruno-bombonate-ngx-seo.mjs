@@ -1,16 +1,15 @@
 import * as i0 from '@angular/core';
-import { Injectable } from '@angular/core';
-import * as i2 from '@angular/router';
-import { NavigationEnd } from '@angular/router';
+import { inject, Injectable } from '@angular/core';
+import { Title, Meta } from '@angular/platform-browser';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { filter, map, mergeMap } from 'rxjs/operators';
-import * as i1 from '@angular/platform-browser';
 
 class SeoService {
-    constructor(title, meta, router, activatedRoute) {
-        this.title = title;
-        this.meta = meta;
-        this.router = router;
-        this.activatedRoute = activatedRoute;
+    constructor() {
+        this.title = inject(Title);
+        this.meta = inject(Meta);
+        this.router = inject(Router);
+        this.activatedRoute = inject(ActivatedRoute);
         this.appName = '';
     }
     setTitle(title) {
@@ -45,15 +44,15 @@ class SeoService {
         this.appName = appName;
         this.listenForRouteChanges();
     }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: SeoService, deps: [{ token: i1.Title }, { token: i1.Meta }, { token: i2.Router }, { token: i2.ActivatedRoute }], target: i0.ɵɵFactoryTarget.Injectable }); }
-    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: SeoService, providedIn: 'root' }); }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: SeoService, deps: [], target: i0.ɵɵFactoryTarget.Injectable }); }
+    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: SeoService, providedIn: 'root' }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: SeoService, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: SeoService, decorators: [{
             type: Injectable,
             args: [{
                     providedIn: 'root'
                 }]
-        }], ctorParameters: () => [{ type: i1.Title }, { type: i1.Meta }, { type: i2.Router }, { type: i2.ActivatedRoute }] });
+        }] });
 
 /*
  * Public API Surface of ngx-seo

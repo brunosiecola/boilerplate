@@ -16,6 +16,7 @@ npm install @bruno-bombonate/ngx-seo
 |1.1.0|15.x|
 |2.0.0|16.x|
 |3.0.0|17.x|
+|18.0.0|18.x|
 
 ## Usage
 
@@ -24,7 +25,7 @@ npm install @bruno-bombonate/ngx-seo
 Start SeoService calling seoService.init(appName) at AppComponent's ngOnInit function.
 
 ```typescript
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { SeoService } from '@bruno-bombonate/ngx-seo';
 
 @Component({
@@ -34,9 +35,7 @@ import { SeoService } from '@bruno-bombonate/ngx-seo';
 })
 export class AppComponent implements OnInit {
 
-  constructor(
-    private readonly seoService: SeoService
-  ) { }
+  private readonly seoService = inject(SeoService);
 
   public ngOnInit(): void {
     this.seoService.init('App');

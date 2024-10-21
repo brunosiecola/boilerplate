@@ -1,13 +1,16 @@
-import { Directive } from '@angular/core';
-import { OnDestroyClass } from './on-destroy.class';
-import { SearchParam, SearchParamType, SearchParamValueType } from '../interfaces/search-param.interface';
+import { Directive, inject } from '@angular/core';
+import { DestroyRefClass } from './destroy-ref.class';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SearchParam, SearchParamType, SearchParamValueType } from '../interfaces/search-param.interface';
 import { HttpParams } from '@angular/common/http';
-import { takeUntil } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { transform } from '../functions/transform.function';
 
 @Directive()
-export class ListContainerClass extends OnDestroyClass {
+export class ListContainerClass extends DestroyRefClass {
+
+  protected readonly activatedRoute = inject(ActivatedRoute);
+  protected readonly router = inject(Router);
 
   public listSearchParamsList: SearchParam[] = [];
   public listSearchParams: any = { };
@@ -16,13 +19,6 @@ export class ListContainerClass extends OnDestroyClass {
   public listLength: number = 0;
   public listLimit: number = 20;
   public listLoading: boolean = false;
-
-  constructor(
-    protected readonly activatedRoute: ActivatedRoute,
-    protected readonly router: Router
-  ) {
-    super();
-  }
 
   protected setListSearchParams(): void {
 
@@ -74,7 +70,7 @@ export class ListContainerClass extends OnDestroyClass {
     this.setListSearchParams();
 
     this.activatedRoute.queryParams
-      .pipe(takeUntil(this.onDestroy))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.getList());
 
   }

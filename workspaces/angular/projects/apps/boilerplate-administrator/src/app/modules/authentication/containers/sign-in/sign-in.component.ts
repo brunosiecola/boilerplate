@@ -1,34 +1,30 @@
-import { Component } from '@angular/core';
-import { OnDestroyClass } from '@bruno-bombonate/ngx-classes';
+import { Component, inject } from '@angular/core';
+import { DestroyRefClass } from '@bruno-bombonate/ngx-classes';
 import { HttpService } from 'projects/apps/boilerplate-administrator/src/app/utils/services/http/http.service';
 import { AuthenticationService } from '@bruno-bombonate/ngx-authentication';
 import { ToastService } from '@bruno-bombonate/ngx-toast';
 import { Router } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.sass']
 })
-export class SignInComponent extends OnDestroyClass {
+export class SignInComponent extends DestroyRefClass {
+
+  private readonly httpService = inject(HttpService);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly toastService = inject(ToastService);
+  private readonly router = inject(Router);
 
   public formLoading: boolean = false;
-
-  constructor(
-    private readonly httpService: HttpService,
-    private readonly authenticationService: AuthenticationService,
-    private readonly toastService: ToastService,
-    private readonly router: Router
-  ) {
-    super();
-  }
 
   public handleFormSubmit(value: any): void {
     if (this.formLoading === false) {
       this.formLoading = true;
       this.httpService.post('administrators/sign-in', value)
-        .pipe(takeUntil(this.onDestroy))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (response: any) => {
             this.authenticationService.setAuthentication(response.data, true);

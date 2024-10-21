@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -8,9 +8,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class HttpService {
 
-  constructor(
-    private readonly httpClient: HttpClient
-  ) { }
+  private readonly httpClient = inject(HttpClient);
 
   public get(url: string): Observable<any> {
     return this.httpClient.get(`${environment.baseUrl}/${url}`);

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, Input } from '@angular/core';
 import { FormsService } from '../../services/forms.service';
 import { ControlErrors } from '../../interfaces/control-errors.interface';
 
@@ -8,6 +8,8 @@ import { ControlErrors } from '../../interfaces/control-errors.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ControlErrorComponent {
+
+  private readonly formsService = inject(FormsService);
 
   @Input()
   public controlErrors: null | ControlErrors = null;
@@ -25,9 +27,5 @@ export class ControlErrorComponent {
     }
     return undefined;
   }
-
-  constructor(
-    private readonly formsService: FormsService
-  ) { }
 
 }

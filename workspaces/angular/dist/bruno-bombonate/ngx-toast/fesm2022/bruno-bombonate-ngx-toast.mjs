@@ -1,9 +1,10 @@
 import * as i0 from '@angular/core';
-import { Injectable, Component, NgModule } from '@angular/core';
-import * as i2 from '@angular/common';
+import { Injectable, inject, ElementRef, Component, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import gsap from 'gsap';
+import { DestroyRefClass } from '@bruno-bombonate/ngx-classes';
 import { Subject } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import gsap from 'gsap';
 
 var ToastType;
 (function (ToastType) {
@@ -27,23 +28,24 @@ class ToastService {
     error(message) {
         this.send = { type: ToastType.Error, message };
     }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: ToastService, deps: [], target: i0.ɵɵFactoryTarget.Injectable }); }
-    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: ToastService, providedIn: 'root' }); }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: ToastService, deps: [], target: i0.ɵɵFactoryTarget.Injectable }); }
+    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: ToastService, providedIn: 'root' }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: ToastService, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: ToastService, decorators: [{
             type: Injectable,
             args: [{
                     providedIn: 'root'
                 }]
         }] });
 
-class ToastComponent {
-    constructor(toastService, elementRef) {
-        this.toastService = toastService;
-        this.elementRef = elementRef;
-        this.toastList = [];
+class ToastComponent extends DestroyRefClass {
+    constructor() {
+        super(...arguments);
+        this.toastService = inject(ToastService);
+        this.elementRef = inject(ElementRef);
         this.toastAnimationInProgress = false;
         this.toastAnimationTimeout = undefined;
+        this.toastList = [];
     }
     toastTimelineShow() {
         if (this.toastAnimationInProgress === false) {
@@ -83,6 +85,7 @@ class ToastComponent {
     }
     ngAfterViewInit() {
         this.toastService.send$
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
             next: (toast) => {
                 this.toastList.push(toast);
@@ -99,24 +102,24 @@ class ToastComponent {
             }
         });
     }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: ToastComponent, deps: [{ token: ToastService }, { token: i0.ElementRef }], target: i0.ɵɵFactoryTarget.Component }); }
-    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "17.0.4", type: ToastComponent, selector: "toast", ngImport: i0, template: "<div *ngIf=\"toastList.length !== 0\"\r\n  class=\"toast\"\r\n  [class.toast-error]=\"toastList[0].type === 'error'\"\r\n  [class.toast-success]=\"toastList[0].type === 'success'\">\r\n  {{ toastList[0].message }}\r\n</div>\r\n", dependencies: [{ kind: "directive", type: i2.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }] }); }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: ToastComponent, deps: null, target: i0.ɵɵFactoryTarget.Component }); }
+    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "18.2.7", type: ToastComponent, selector: "toast", usesInheritance: true, ngImport: i0, template: "@if (toastList.length !== 0) {\r\n  <div\r\n    class=\"toast\"\r\n    [class.toast-error]=\"toastList[0].type === 'error'\"\r\n    [class.toast-success]=\"toastList[0].type === 'success'\">\r\n    {{ toastList[0].message }}\r\n  </div>\r\n}\r\n" }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: ToastComponent, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: ToastComponent, decorators: [{
             type: Component,
-            args: [{ selector: 'toast', template: "<div *ngIf=\"toastList.length !== 0\"\r\n  class=\"toast\"\r\n  [class.toast-error]=\"toastList[0].type === 'error'\"\r\n  [class.toast-success]=\"toastList[0].type === 'success'\">\r\n  {{ toastList[0].message }}\r\n</div>\r\n" }]
-        }], ctorParameters: () => [{ type: ToastService }, { type: i0.ElementRef }] });
+            args: [{ selector: 'toast', template: "@if (toastList.length !== 0) {\r\n  <div\r\n    class=\"toast\"\r\n    [class.toast-error]=\"toastList[0].type === 'error'\"\r\n    [class.toast-success]=\"toastList[0].type === 'success'\">\r\n    {{ toastList[0].message }}\r\n  </div>\r\n}\r\n" }]
+        }] });
 
 class ToastModule {
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: ToastModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
-    static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "17.0.4", ngImport: i0, type: ToastModule, declarations: [
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: ToastModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
+    static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "18.2.7", ngImport: i0, type: ToastModule, declarations: [
             // components
             ToastComponent], imports: [CommonModule], exports: [
             // components
             ToastComponent] }); }
-    static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: ToastModule, imports: [CommonModule] }); }
+    static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: ToastModule, imports: [CommonModule] }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.4", ngImport: i0, type: ToastModule, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.7", ngImport: i0, type: ToastModule, decorators: [{
             type: NgModule,
             args: [{
                     declarations: [
