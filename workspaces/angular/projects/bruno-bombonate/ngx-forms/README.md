@@ -16,6 +16,7 @@ npm install @bruno-bombonate/ngx-forms
 |3.0.3|15.x|
 |4.0.0|16.x|
 |5.0.0|17.x|
+|18.0.0|18.x|
 
 ## Usage
 
