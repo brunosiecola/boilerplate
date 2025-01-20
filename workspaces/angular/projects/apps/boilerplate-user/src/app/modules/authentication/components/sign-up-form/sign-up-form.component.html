@@ -24,6 +24,7 @@
       type="email"
       id="email"
       class="form-control"
+      autocomplete="username"
       formControlName="email">
     <control-error *ngIf="controlErrorMessageIsVisible(form.controls['email'])"
       [controlErrors]="form.controls['email'].errors">
@@ -42,6 +43,7 @@
             type="password"
             id="password"
             class="form-control"
+            autocomplete="new-password"
             formControlName="password">
           <control-error *ngIf="controlErrorMessageIsVisible(passwordFormGroup.controls['password'])"
             [controlErrors]="passwordFormGroup.controls['password'].errors">
@@ -59,6 +61,7 @@
             type="password"
             id="passwordConfirmation"
             class="form-control"
+            autocomplete="new-password"
             formControlName="passwordConfirmation">
           <control-error *ngIf="controlErrorMessageIsVisible(passwordFormGroup.controls['passwordConfirmation'])"
             [controlErrors]="passwordFormGroup.controls['passwordConfirmation'].errors">

@@ -9,6 +9,7 @@
       type="email"
       id="email"
       class="form-control"
+      autocomplete="username"
       formControlName="email">
     <control-error *ngIf="controlErrorMessageIsVisible(form.controls['email'])"
       [controlErrors]="form.controls['email'].errors">
@@ -24,6 +25,7 @@
       type="password"
       id="password"
       class="form-control"
+      autocomplete="current-password"
       formControlName="password">
     <control-error *ngIf="controlErrorMessageIsVisible(form.controls['password'])"
       [controlErrors]="form.controls['password'].errors">
